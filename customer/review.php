@@ -6,7 +6,7 @@
         require_once("../connect_db.php"); // importing function
         $conn = connect_mysql();
 
-        $reviewSql = "SELECT FROM Review WHERE item_id = '$itemId'";
+        $reviewSql = "SELECT * FROM Review WHERE item_id = '$itemId'";
         mysqli_query($conn, $reviewSql);
 
         // TODO: Display all the review items. 
