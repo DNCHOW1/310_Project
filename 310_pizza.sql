@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 17, 2023 at 09:16 PM
+-- Generation Time: Apr 17, 2023 at 09:23 PM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.2.0
 
@@ -243,6 +243,20 @@ INSERT INTO `payment` (`customer_id`, `payment_id`, `name`, `cc_number`, `expira
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `review`
+--
+
+CREATE TABLE `review` (
+  `customer_id` bigint(20) UNSIGNED NOT NULL,
+  `item_id` bigint(20) UNSIGNED NOT NULL,
+  `review` text NOT NULL,
+  `rating` int(11) NOT NULL,
+  `datetime` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `takeout`
 --
 
@@ -359,6 +373,13 @@ ALTER TABLE `payment`
   ADD UNIQUE KEY `payment_id` (`payment_id`);
 
 --
+-- Indexes for table `review`
+--
+ALTER TABLE `review`
+  ADD KEY `customer_id` (`customer_id`),
+  ADD KEY `item_id` (`item_id`);
+
+--
 -- Indexes for table `takeout`
 --
 ALTER TABLE `takeout`
@@ -462,6 +483,13 @@ ALTER TABLE `orderitem`
 --
 ALTER TABLE `payment`
   ADD CONSTRAINT `payment_ibfk_1` FOREIGN KEY (`customer_id`) REFERENCES `customer` (`customer_id`);
+
+--
+-- Constraints for table `review`
+--
+ALTER TABLE `review`
+  ADD CONSTRAINT `review_ibfk_1` FOREIGN KEY (`customer_id`) REFERENCES `customer` (`customer_id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `review_ibfk_2` FOREIGN KEY (`item_id`) REFERENCES `item` (`item_id`);
 
 --
 -- Constraints for table `takeout`
