@@ -10,7 +10,7 @@ $street = $_POST["street"];
 $city = $_POST["city"];
 $zip = $_POST["zip"];
 
-require_once("connect_db.php");
+require_once("../connect_db.php");
 $conn = connect_mysql();
 
 // Try a transaction, so that we ensure we insert into both tables
