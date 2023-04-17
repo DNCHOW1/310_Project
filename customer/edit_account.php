@@ -5,17 +5,8 @@
             // Get the customer ID from cookie
             $customerId = json_decode($_COOKIE["currentUser"], true);
             
-            // Connect to the MySQL database
-            $host = "localhost";
-            $user = "root";
-            $password = "";
-            $database = "310_pizza";
-            $conn = mysqli_connect($host, $user, $password, $database);
-            
-            // Check for errors
-            if (!$conn) {
-                die("Connection failed: " . mysqli_connect_error());
-            }
+            require_once("../connect_db.php");
+            $conn = connect_mysql();
 
             // Query the user,customer table for the customer's info
             $sql = "SELECT * FROM Customer LEFT JOIN User ON Customer.customer_id = User.user_id WHERE Customer.customer_id = " . $customerId;

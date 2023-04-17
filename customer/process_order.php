@@ -12,12 +12,8 @@ $zip = $_POST["zip"];
 $cartItems = json_decode($_POST["cartItems"]);
 $paymentId = $_POST["final_payment_id"];
 
-// Connect to MySQL database
-$servername = "localhost";
-$dbusername = "root";
-$dbpassword = "";
-$dbname = "310_pizza";
-$conn = mysqli_connect($servername, $dbusername, $dbpassword, $dbname);
+require_once("../connect_db.php");
+$conn = connect_mysql();
 
 // Try a transaction, so that we ensure we insert into OrderItem, Checkout
 try{

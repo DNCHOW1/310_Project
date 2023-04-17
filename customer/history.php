@@ -10,17 +10,8 @@
 		// test
         $customerId = json_decode($_COOKIE["currentUser"], true);
 		
-		// Connect to the MySQL database
-		$host = "localhost";
-		$user = "root";
-		$password = "";
-		$database = "310_pizza";
-		$conn = mysqli_connect($host, $user, $password, $database);
-		
-		// Check for errors
-		if (!$conn) {
-			die("Connection failed: " . mysqli_connect_error());
-		}
+		require_once("../connect_db.php");
+		$conn = connect_mysql();
 
 		// Query the "Checkout" and "Customer" tables for orders by the current user
 		$sql = "SELECT * FROM Checkout 
@@ -38,7 +29,12 @@
 			echo "<ul>";
 			// Display each order
 			while ($row = mysqli_fetch_assoc($result)) {
-				echo "<li><strong>Order #" . $row["order_id"] . "</strong><br>Ordered on " . $row["time_ordered"] . "<br>Total price: $" . $row["total_price"] . "<br>";
+				echo 
+				"<li>
+					<strong>Order #" . $row["order_id"] . "</strong><br>
+					Ordered on " . $row["time_ordered"] . "<br>
+					Ordered fufilled " . $row["time_fufilled"] . "<br>
+					Total price: $" . $row["total_price"] . "<br>";
 				
 				// Query the "OrderItem" and "Item" tables for items in the current order
 				$itemSql = "SELECT * FROM OrderItem INNER JOIN Item ON OrderItem.item_id = Item.item_id WHERE OrderItem.order_id = " . $row["order_id"];

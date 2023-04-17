@@ -6,6 +6,6 @@
         <label for="password">Password:</label>
         <input type="password" id="password" name="password"><br><br>
         <input type="submit" value="Login">
-        <a href="register.php"><button type="button">Register</button></a>
+        <a href="/register/register.php"><button type="button">Register</button></a>
     </form>
 </div>

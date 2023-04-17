@@ -11,17 +11,8 @@
 	<form id="menuForm">
 	
 	<?php
-		// Connect to the MySQL database
-		$host = "localhost";
-		$user = "root";
-		$password = "";
-		$database = "310_pizza";
-		$conn = mysqli_connect($host, $user, $password, $database);
-		
-		// Check for errors
-		if (!$conn) {
-			die("Connection failed: " . mysqli_connect_error());
-		}
+		require_once("../connect_db.php");
+		$conn = connect_mysql();
 		
 		// Query all the items from "Item" table
 		$sql = "SELECT * FROM Item";
@@ -33,7 +24,15 @@
 			echo "<ul>";
 			while ($row = mysqli_fetch_assoc($result)) {
 				$itemId = $row["item_id"];
-				echo "<li><input type=\"checkbox\" name=\"item[]\" value=\"" . $row["item_name"] . "\" id=\"$itemId\"> <strong>" . $row["item_name"] . "</strong><br>" . $row["description"] . "<br>$" . $row["price"] . "</li>";
+
+				// Display a description of the menu item
+				echo 
+				"<li>
+					<input type=\"checkbox\" name=\"item[]\" value=\"" . $row["item_name"] . "\" id=\"$itemId\"> 
+					<strong><a href='review.php?item_id=" . $itemId . "'>" . $row["item_name"] . "</a></strong><br>" . 
+					$row["description"] . "<br>$" . 
+					$row["price"] .
+				"</li>";
 
 				// Query the "ItemIngredient" and "Ingredient" table for ingredient_id associated with item_id
 				$ingredientSql = "SELECT ing.ingredient_name
@@ -43,7 +42,7 @@
 											WHERE ItemIngredient.item_id = '$itemId'";
 				$ingredientResult =  mysqli_query($conn, $ingredientSql);
 
-				// Display each ingredient in the item
+				// Display each ingredient associated with the item
 				if (mysqli_num_rows($ingredientResult) > 0) {
 					echo "<ul>";
 					while ($ingredientRow = mysqli_fetch_assoc($ingredientResult)) {

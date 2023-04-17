@@ -8,35 +8,30 @@
     
     <!-- Logout button -->
     <button style="position: absolute; top: 10px; right: 10px;" onclick="logout()">Logout</button>
+
+    <!-- AdminMenu Button -->
+    <?php 
+        if ($_COOKIE["isAdmin"] == 1) {
+            echo '<button type="button" onclick="adminMenu()">Admin Menu</button>';
+        }
+    ?>
     
     <h2> Ongoing Orders </h2>
     <?php
+
         // Debugging
         echo "<p> " . htmlentities(json_encode($_COOKIE)) . "><br>";
 
         $customerId = json_decode($_COOKIE["currentUser"], true);
-		
-		// Connect to the MySQL database
-		$host = "localhost";
-		$user = "root";
-		$password = "";
-		$database = "310_pizza";
-		$conn = mysqli_connect($host, $user, $password, $database);
-		
-		// Check for errors
-		if (!$conn) {
-			die("Connection failed: " . mysqli_connect_error());
-		}
 
-		// Query the "Checkout" and "Customer" tables for orders by the current user
+        require_once("../connect_db.php");
+		$conn = connect_mysql();
+
+		// Query the "Checkout" for ALL unserved orders
 		$sql = "SELECT * FROM Checkout 
-					LEFT JOIN Customer 
-						ON Checkout.customer_id = Customer.customer_id 
 					WHERE 
-						Checkout.customer_id = '$customerId'
-						AND
 						Checkout.order_status = 0
-					ORDER BY Checkout.time_ordered DESC";
+					ORDER BY Checkout.time_ordered ASC";
 		$result = mysqli_query($conn, $sql);
 		
 		// Check for results
@@ -60,45 +55,38 @@
 				} else {
 					echo "No items found for this order.";
 				}
+
+                // Create a button that will run a php function to update order
+                echo
+                 '<form method="post" action="update_order.php">
+                <input type="hidden" name="order_id" value="' . $row['order_id'] . '">
+                <button type="submit" name="update_order">Serve Order</button>
+                </form>'; 
 				
-				echo "</li>";
+				echo "</li><br>";
 			}
 			echo "</ul>";
 		} else {
 			// Display a message if there are no results
 			echo "No orders found.";
 		}
+        mysqli_close($conn);
     ?>
-    
-    
-    <!-- Button for edit account info page -->
-    <form action="edit_account.php" method="get">
-        <input type="submit" value="Edit Account Info">
-    </form>
-    
-    <!-- Button for menu page -->
-    <form action="menu.php" method="get">
-        <input type="submit" value="Menu">
-    </form>
-    
-    <!-- Button for cart page -->
-    <form action="cart.php" method="get">
-        <input type="submit" value="Cart">
-    </form>
-
-    <!-- Button for History page -->
-    <form action="history.php" method="get">
-        <input type="submit" value="History">
-    </form>
     
     <script>
         function logout() {
             // Invalidate cookies
             document.cookie = 'currentUser=; Max-Age=-99999999;'; 
             document.cookie = 'cartItems=; Max-Age=-99999999';
+            document.cookie = 'userType=; Max-Age=-99999999';
 
             // Navigate back to login page
-			window.location.href = "index.php";
+			window.location.href = "../index.php";
+        }
+
+        function adminMenu() {
+            // Navigate to admin menu page
+            window.location.href = "admin_menu.php";
         }
     </script>
 </body>

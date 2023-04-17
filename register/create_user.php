@@ -10,17 +10,8 @@ $street = $_POST["street"];
 $city = $_POST["city"];
 $zip = $_POST["zip"];
 
-// Connect to MySQL database
-$servername = "localhost";
-$dbusername = "root";
-$dbpassword = "";
-$dbname = "310_pizza";
-$conn = mysqli_connect($servername, $dbusername, $dbpassword, $dbname);
-
-// Check connection
-if (!$conn) {
-    die("Connection failed: " . mysqli_connect_error());
-}
+require_once("connect_db.php");
+$conn = connect_mysql();
 
 // Try a transaction, so that we ensure we insert into both tables
 try{

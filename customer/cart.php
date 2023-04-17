@@ -7,24 +7,16 @@
 	<h1>Cart</h1>
 	
 	<?php
+	
 		// Get the cart items from local storage
 		if(isset($_COOKIE["cartItems"])){
 			$cartItems = json_decode($_COOKIE["cartItems"], true);
 		} else{
 			$cartItems = [];
 		}
-		
-		// Connect to the MySQL database
-		$host = "localhost";
-		$user = "root";
-		$password = "";
-		$database = "310_pizza";
-		$conn = mysqli_connect($host, $user, $password, $database);
-		
-		// Check for errors
-		if (!$conn) {
-			die("Connection failed: " . mysqli_connect_error());
-		}
+	
+		require_once("../connect_db.php");
+		$conn = connect_mysql();
 
 		if (!empty($cartItems)) {
 			echo "<form method=\"post\" action=\"checkout.php\">";

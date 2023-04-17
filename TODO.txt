@@ -1,5 +1,8 @@
 * catch on duplicate username/email on the create_user.php
+  - Could create an index based on username
 * Maybe add state as an attribute to the Customer table, and edit all pages to reflect this
 * Ask lanclos whether we should override address for user, or keep address as another attr for 
   - Said this was okay, we just leave a comment afterwards saying this
 * Somewhere we should be able to delete payment options?? Maybe??
+* Should there be a way to create an employee??
+* Should employee see past orders they've served?

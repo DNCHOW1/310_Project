@@ -11,17 +11,8 @@ $zip = $_POST["zip"];
 // Get the customer ID from a session variable or form data
 $customerId = json_decode($_COOKIE["currentUser"], true);
         
-// Connect to the MySQL database
-$host = "localhost";
-$user = "root";
-$password = "";
-$database = "310_pizza";
-$conn = mysqli_connect($host, $user, $password, $database);
-
-// Check for errors
-if (!$conn) {
-    die("Connection failed: " . mysqli_connect_error());
-}
+require_once("../connect_db.php");
+$conn = connect_mysql();
 
 $updateUserSql = "UPDATE User
                     SET 
@@ -53,5 +44,7 @@ try{
 
     // Close connection
     mysqli_close($conn);
+
 }
+header("Location: edit_account.php");
 ?>
