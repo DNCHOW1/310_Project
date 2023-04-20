@@ -11,7 +11,7 @@
 
     <!-- AdminMenu Button -->
     <?php 
-        if ($_COOKIE["isAdmin"] == 1) {
+        if ($_COOKIE["userType"] == 1) {
             echo '<button type="button" onclick="adminMenu()">Admin Menu</button>';
         }
     ?>

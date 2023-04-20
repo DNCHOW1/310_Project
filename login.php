@@ -30,7 +30,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             if($row['user_type'] == 0){ // Regular Customer
                 header("Location: customer/home.php");
             } else{ // Employee
-                header("Location: employees/employee_home.php");
+                header("Location: employee/employee_home.php");
             }
         }
         exit();

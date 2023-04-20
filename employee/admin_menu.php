@@ -19,15 +19,44 @@
 			$result = mysqli_query($conn, $sql);
 
 			// TODO:
-			// Functionality to add new menu item
 			// Functionality to delete some menu item
 			//	 Remember to delete the menu item from the linking table "ItemIngredient" as well
 			// Functionality to edit a menu item
 			//	 This'll be somewhat tricky, because there's ingredients associated to each menu item
+
+			echo
+			"<form method=\"post\" action=\"delete_item.php\">
+				<label for=\"itemname\">Item Name To Delete:</label>
+				<input type=\"text\" id=\"itemname\" name=\"itemname\"><br><br>
+				<input type=\"submit\" value=\"Delete Item\">
+			</form><br><br>";
+
+			echo
+			"<form method=\"post\" action=\"add_item.php\">
+				<label for=\"newname\">Item Name To Add:</label>
+				<input type=\"text\" id=\"newname\" name=\"newname\"><br><br>
+				<label for=\"newprice\">Item Price:</label>
+				<input type=\"text\" id=\"newprice\" name=\"newprice\"><br><br>
+				<label for=\"newdesc\">Item Description:</label>
+				<input type=\"text\" id=\"newdesc\" name=\"newdesc\"><br><br>
+				<input type=\"submit\" value=\"Add Item\">
+			</form><br><br>";
+
+			echo
+			"<form method=\"post\" action=\"edit_item.php\">
+				<label for=\"oldname\">Old Item Name:</label>
+				<input type=\"text\" id=\"oldname\" name=\"oldname\"><br><br>
+				<label for=\"newname\">New Item Name:</label>
+				<input type=\"text\" id=\"newname\" name=\"newname\"><br><br>
+				<label for=\"newprice\">New Price:</label>
+				<input type=\"text\" id=\"newprice\" name=\"newprice\"><br><br>
+				<label for=\"newdesc\">New Description:</label>
+				<input type=\"text\" id=\"newdesc\" name=\"newdesc\"><br><br>
+				<input type=\"submit\" value=\"Edit Item\">
+			</form>";
 			
 			// Check for results
 			if (mysqli_num_rows($result) > 0) {
-				// Display the results in a list with checkboxes
 				echo "<ul>";
 				while ($row = mysqli_fetch_assoc($result)) {
 					$itemId = $row["item_id"];
@@ -66,7 +95,7 @@
 			// Close the database connection
 			mysqli_close($conn);
 		?>
-	
+
 	</form>
 </body>
 </html>
