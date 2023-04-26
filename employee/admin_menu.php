@@ -5,10 +5,7 @@
 </head>
 <body>
 	<h1>Menu</h1>
-	<a href="employee_home.php">Home</a>
-	
-	<form id="menuForm">
-	
+	<a href="employee_home.php">Home</a>	
 		<?php
 			// Import and use function
 			require_once("../connect_db.php");
@@ -40,6 +37,15 @@
 				<label for=\"newdesc\">Item Description:</label>
 				<input type=\"text\" id=\"newdesc\" name=\"newdesc\"><br><br>
 				<input type=\"submit\" value=\"Add Item\">
+			</form><br><br>";
+
+			echo
+			"<form method=\"post\" action=\"add_ingredient.php\">
+				<label for=\"itemname\">Menu Item Name:</label>
+				<input type=\"text\" id=\"itemname\" name=\"itemname\"><br><br>
+				<label for=\"ingredientname\">Ingredient Name:</label>
+				<input type=\"text\" id=\"ingredientname\" name=\"ingredientname\"><br><br>
+				<input type=\"submit\" value=\"Add Ingredient to Item\">
 			</form><br><br>";
 
 			echo
