@@ -28,6 +28,16 @@
     <form action="history.php" method="get">
         <input type="submit" value="History">
     </form>
+
+	<!-- Button for Create Review page -->
+    <form action="process_review.php" method="get">
+        <input type="submit" value="Create/Edit Review">
+    </form>
+
+	<!-- Button for Review page -->
+    <form action="review.php" method="get">
+        <input type="submit" value="View Reviews">
+    </form>
     
     <script>
         function logout() {
