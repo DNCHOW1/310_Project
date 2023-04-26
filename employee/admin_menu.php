@@ -49,6 +49,15 @@
 			</form><br><br>";
 
 			echo
+			"<form method=\"post\" action=\"remove_ingredient.php\">
+				<label for=\"itemname\">Menu Item Name:</label>
+				<input type=\"text\" id=\"itemname\" name=\"itemname\"><br><br>
+				<label for=\"ingredientname\">Ingredient Name:</label>
+				<input type=\"text\" id=\"ingredientname\" name=\"ingredientname\"><br><br>
+				<input type=\"submit\" value=\"Remove Ingredient from Item\">
+			</form><br><br>";
+
+			echo
 			"<form method=\"post\" action=\"edit_item.php\">
 				<label for=\"oldname\">Old Item Name:</label>
 				<input type=\"text\" id=\"oldname\" name=\"oldname\"><br><br>
