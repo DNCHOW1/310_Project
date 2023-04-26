@@ -13,45 +13,53 @@
 	<?php
 		require_once("../connect_db.php");
 		$conn = connect_mysql();
-		
-		// Query all the items from "Item" table
-		$sql = "SELECT * FROM Item";
+
+		// Query all the items from "item_ingredient_view" table
+		$sql = "SELECT * FROM item_ingredient_view";
 		$result = mysqli_query($conn, $sql);
 		
 		// Check for results
 		if (mysqli_num_rows($result) > 0) {
 			// Display the results in a list with checkboxes
 			echo "<ul>";
+			$prevId = -1;
+			$prevIngFlag = 0;
 			while ($row = mysqli_fetch_assoc($result)) {
 				$itemId = $row["item_id"];
 
-				// Display a description of the menu item
-				echo 
-				"<li>
+				if($itemId != $prevId){
+					if($prevIngFlag) {
+						// We want to close off previous ul list if one was created
+						echo "</ul>"; 
+						$prevIngFlag = 0;
+					}
+
+					// Display a description of the menu item, this is a newly seen menu item
+					echo 
+					"<li>
 					<input type=\"checkbox\" name=\"item[]\" value=\"" . $row["item_name"] . "\" id=\"$itemId\"> 
 					<strong><a href='review.php?item_id=" . $itemId . "'>" . $row["item_name"] . "</a></strong><br>" . 
 					$row["description"] . "<br>$" . 
 					$row["price"] .
-				"</li>";
-
-				// Query the "ItemIngredient" and "Ingredient" table for ingredient_id associated with item_id
-				$ingredientSql = "SELECT ing.ingredient_name
-											FROM ItemIngredient 
-											INNER JOIN Ingredient ing
-												ON ItemIngredient.ingredient_id = ing.ingredient_id 
-											WHERE ItemIngredient.item_id = '$itemId'";
-				$ingredientResult =  mysqli_query($conn, $ingredientSql);
-
-				// Display each ingredient associated with the item
-				if (mysqli_num_rows($ingredientResult) > 0) {
-					echo "<ul>";
-					while ($ingredientRow = mysqli_fetch_assoc($ingredientResult)) {
-						echo "<li>" . $ingredientRow["ingredient_name"] . "</li>";
+					"</li>";
+					
+					// Display a list of all the associated menu ingredients if they exist
+					if($row["ingredient_id"] != NULL){
+						echo "<ul>";
+						echo "<li>" . $row["ingredient_name"] . "</li>";
+						$prevIngFlag = 1;
 					}
-					echo "</ul>";
+
+					$prevId = $itemId; // Update the prevId of the seen ingredient
 				}
+				else{
+					// Previous menu item has multiple ingredients, add the newly seen ingredient
+					echo "<li>" . $row["ingredient_name"] . "</li>";
+				}
+
 			}
-			echo "</ul>";
+			if($prevIngFlag) echo "</ul>";  //  close off the last item ingredient list if it exists
+			echo "</ul>";							// close off the item list
 		} else {
 			// Display a message if there are no results
 			echo "No items found.";
