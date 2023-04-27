@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 17, 2023 at 09:23 PM
+-- Generation Time: Apr 27, 2023 at 07:58 PM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.2.0
 
@@ -46,15 +46,16 @@ CREATE TABLE `checkout` (
 INSERT INTO `checkout` (`order_id`, `customer_id`, `employee_id`, `payment_id`, `order_status`, `time_ordered`, `time_fufilled`, `order_type`, `total_price`) VALUES
 (5, 13, 24, 1, 1, '2023-04-10 03:02:01', '2023-04-17 13:20:06', 'delivery', 30.76),
 (6, 13, NULL, 1, 0, '2023-04-10 03:03:28', NULL, 'delivery', 30.76),
-(7, 13, NULL, 1, 0, '2023-04-10 03:03:59', NULL, 'pickup', 30.76),
 (8, 13, NULL, 1, 0, '2023-04-10 03:06:55', NULL, 'pickup', 30.76),
 (9, 13, NULL, 1, 0, '2023-04-10 11:37:22', NULL, 'delivery', 30.76),
 (10, 13, NULL, 1, 0, '2023-04-10 11:44:16', NULL, 'pickup', 30.76),
 (12, 13, NULL, 1, 0, '2023-04-10 13:10:34', NULL, 'delivery', 53.63),
-(13, 13, NULL, 1, 0, '2023-04-10 18:10:42', NULL, 'pickup', 45.14),
+(13, 13, 25, 1, 1, '2023-04-10 18:10:42', '2023-04-26 11:49:51', 'pickup', 45.14),
 (14, 13, NULL, 1, 0, '2023-04-10 18:23:46', NULL, 'delivery', 15.38),
 (15, 13, NULL, 1, 0, '2023-04-10 18:27:27', NULL, 'pickup', 7.69),
-(20, 13, 24, 3, 1, '2023-04-17 14:13:25', '2023-04-17 14:13:53', 'delivery', 75.9);
+(20, 13, 24, 3, 1, '2023-04-17 14:13:25', '2023-04-17 14:13:53', 'delivery', 75.9),
+(21, 13, 24, 5, 1, '2023-04-27 12:14:49', '2023-04-27 12:19:52', 'pickup', 7.69),
+(22, 27, NULL, 6, 0, '2023-04-27 12:23:37', '2023-04-27 12:23:37', 'delivery', 69.21);
 
 -- --------------------------------------------------------
 
@@ -75,9 +76,10 @@ CREATE TABLE `customer` (
 --
 
 INSERT INTO `customer` (`customer_id`, `phone`, `street`, `city`, `zip_code`) VALUES
-(13, '742-528-2710', 'Random Street', 'Random City', 77840),
+(13, '742-528-2713', 'Random Street', 'Random City', 77840),
 (22, '2666738282', 'shf', 'city name', 72587),
-(23, '725-257-2792', 'shf', 'sjf', 72587);
+(23, '725-257-2792', 'shf', 'sjf', 72587),
+(27, '7327294829', 'Im in austin street', 'Austin', 77727);
 
 -- --------------------------------------------------------
 
@@ -102,7 +104,8 @@ INSERT INTO `delivery` (`order_id`, `address`, `city`, `zip_code`) VALUES
 (9, 'shf', 'sjf', 72587),
 (12, 'Test Address', 'Test City', 77840),
 (14, 'Random Street 3', 'Random City 3', 77840),
-(20, 'Random Street Test', 'Random City', 77840);
+(20, 'Random Street Test', 'Random City', 77840),
+(22, 'Cherryian Address', 'Houston', 77494);
 
 -- --------------------------------------------------------
 
@@ -140,7 +143,11 @@ CREATE TABLE `ingredient` (
 
 INSERT INTO `ingredient` (`ingredient_id`, `ingredient_name`) VALUES
 (1, 'Pepperoni'),
-(2, 'Cheese');
+(2, 'Cheese'),
+(4, 'Sausage'),
+(5, 'Dough'),
+(6, '123'),
+(7, 'Cherryman');
 
 -- --------------------------------------------------------
 
@@ -161,7 +168,8 @@ CREATE TABLE `item` (
 
 INSERT INTO `item` (`item_id`, `item_name`, `price`, `description`) VALUES
 (1, 'pepperoni pizza', 7.69, 'Pizza with pepperoni pizza and cheese. Nutritious and healthy.'),
-(2, 'cheese pizza', 7.49, 'Pizza with cheese.');
+(2, 'cheese pizza', 7.49, 'Pizza with cheese.'),
+(4, 'Sausage and Pepperoni Pizza', 15.49, 'This pizza has sausage AND pepperoni!');
 
 -- --------------------------------------------------------
 
@@ -182,7 +190,25 @@ CREATE TABLE `itemingredient` (
 INSERT INTO `itemingredient` (`item_id`, `ingredient_id`, `amount`) VALUES
 (1, 1, 1),
 (1, 2, 1),
-(2, 2, 1);
+(2, 2, 1),
+(4, 1, 1),
+(4, 4, 1),
+(4, 5, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Stand-in structure for view `item_ingredient_view`
+-- (See below for the actual view)
+--
+CREATE TABLE `item_ingredient_view` (
+`item_id` bigint(20) unsigned
+,`item_name` varchar(255)
+,`price` float
+,`description` text
+,`ingredient_id` bigint(20) unsigned
+,`ingredient_name` varchar(255)
+);
 
 -- --------------------------------------------------------
 
@@ -203,7 +229,6 @@ CREATE TABLE `orderitem` (
 INSERT INTO `orderitem` (`order_id`, `item_id`, `amount`) VALUES
 (5, 1, 4),
 (6, 1, 4),
-(7, 1, 4),
 (8, 1, 4),
 (9, 1, 4),
 (10, 1, 4),
@@ -214,7 +239,34 @@ INSERT INTO `orderitem` (`order_id`, `item_id`, `amount`) VALUES
 (14, 1, 2),
 (15, 1, 1),
 (20, 1, 5),
-(20, 2, 5);
+(20, 2, 5),
+(21, 1, 1),
+(22, 1, 9);
+
+-- --------------------------------------------------------
+
+--
+-- Stand-in structure for view `order_item_view`
+-- (See below for the actual view)
+--
+CREATE TABLE `order_item_view` (
+`order_id` bigint(20) unsigned
+,`customer_id` bigint(20) unsigned
+,`order_status` int(11)
+,`time_ordered` datetime
+,`time_fufilled` datetime
+,`order_type` text
+,`total_price` float
+,`address` text
+,`city` text
+,`zip_code` int(11)
+,`pickupTime` datetime
+,`amount` int(11)
+,`item_id` bigint(20) unsigned
+,`item_name` varchar(255)
+,`description` text
+,`order_item_price` double(19,2)
+);
 
 -- --------------------------------------------------------
 
@@ -238,7 +290,9 @@ CREATE TABLE `payment` (
 INSERT INTO `payment` (`customer_id`, `payment_id`, `name`, `cc_number`, `expiration`, `security_code`) VALUES
 (13, 1, 'Arjun Grover', 982292847, '2023-04-05', 287),
 (13, 3, 'Dien Chau', 5297924298, '2023-12-01', 283),
-(23, 4, 'Dien Chau', 33333333333, '2023-02-01', 98);
+(13, 5, 'Ethan Cherry2', 287928, '2023-07-01', 294),
+(23, 4, 'Dien Chau', 33333333333, '2023-02-01', 98),
+(27, 6, 'Jellygumping', 275281893, '2023-07-01', 758);
 
 -- --------------------------------------------------------
 
@@ -253,6 +307,15 @@ CREATE TABLE `review` (
   `rating` int(11) NOT NULL,
   `datetime` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `review`
+--
+
+INSERT INTO `review` (`customer_id`, `item_id`, `review`, `rating`, `datetime`) VALUES
+(13, 1, 'It sucks!', 1, '2023-04-27 12:17:49'),
+(13, 2, 'test', 5, '2023-04-26 19:19:57'),
+(27, 1, 'This pepperoni pizza made me gag, yick.', 2, '2023-04-27 12:24:21');
 
 -- --------------------------------------------------------
 
@@ -270,11 +333,11 @@ CREATE TABLE `takeout` (
 --
 
 INSERT INTO `takeout` (`order_id`, `pickupTime`) VALUES
-(7, '0000-00-00 00:00:00'),
 (8, '2023-04-10 14:59:00'),
 (10, '2023-04-10 11:47:00'),
 (13, '2023-04-11 06:10:00'),
-(15, '2023-04-11 18:31:00');
+(15, '2023-04-11 18:31:00'),
+(21, '2023-04-27 06:20:00');
 
 -- --------------------------------------------------------
 
@@ -301,7 +364,47 @@ INSERT INTO `user` (`user_id`, `username`, `password`, `first_name`, `last_name`
 (22, 'syed12', 'Abdullah', 'Syed', 'Asad', 'syedbasdphjsdj@gmail.com', 0),
 (23, 'syed', 'asad', 'syed', 'asad', 'syedbasdphjsdj@gmail.com', 0),
 (24, 'employee1', 'pass', 'firstname', 'lastname', 'firstlast@yahoo.com', 1),
-(25, 'admin1', 'pass', 'fname', 'lname', 'admin@hotmail.com', 1);
+(25, 'admin1', 'pass', 'fname', 'lname', 'admin@hotmail.com', 1),
+(27, 'jelygun1', '123', 'Mohith', 'Jalagam', 'mohijelly@yahoo.com', 0);
+
+-- --------------------------------------------------------
+
+--
+-- Stand-in structure for view `user_item_view`
+-- (See below for the actual view)
+--
+CREATE TABLE `user_item_view` (
+`customer_id` bigint(20) unsigned
+,`item_id` bigint(20) unsigned
+,`item_name` varchar(255)
+);
+
+-- --------------------------------------------------------
+
+--
+-- Structure for view `item_ingredient_view`
+--
+DROP TABLE IF EXISTS `item_ingredient_view`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `item_ingredient_view`  AS SELECT `i`.`item_id` AS `item_id`, `i`.`item_name` AS `item_name`, `i`.`price` AS `price`, `i`.`description` AS `description`, `ing`.`ingredient_id` AS `ingredient_id`, `ing`.`ingredient_name` AS `ingredient_name` FROM ((`item` `i` left join `itemingredient` on(`i`.`item_id` = `itemingredient`.`item_id`)) left join `ingredient` `ing` on(`itemingredient`.`ingredient_id` = `ing`.`ingredient_id`))  ;
+
+-- --------------------------------------------------------
+
+--
+-- Structure for view `order_item_view`
+--
+DROP TABLE IF EXISTS `order_item_view`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `order_item_view`  AS SELECT `c`.`order_id` AS `order_id`, `c`.`customer_id` AS `customer_id`, `c`.`order_status` AS `order_status`, `c`.`time_ordered` AS `time_ordered`, `c`.`time_fufilled` AS `time_fufilled`, `c`.`order_type` AS `order_type`, `c`.`total_price` AS `total_price`, `d`.`address` AS `address`, `d`.`city` AS `city`, `d`.`zip_code` AS `zip_code`, `t`.`pickupTime` AS `pickupTime`, `oi`.`amount` AS `amount`, `i`.`item_id` AS `item_id`, `i`.`item_name` AS `item_name`, `i`.`description` AS `description`, round(`i`.`price` * `oi`.`amount`,2) AS `order_item_price` FROM ((((`checkout` `c` left join `delivery` `d` on(`c`.`order_id` = `d`.`order_id`)) left join `takeout` `t` on(`c`.`order_id` = `t`.`order_id`)) left join `orderitem` `oi` on(`c`.`order_id` = `oi`.`order_id`)) left join `item` `i` on(`oi`.`item_id` = `i`.`item_id`))  ;
+
+-- --------------------------------------------------------
+
+--
+-- Structure for view `user_item_view`
+--
+DROP TABLE IF EXISTS `user_item_view`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `user_item_view`  AS SELECT DISTINCT `oiv`.`customer_id` AS `customer_id`, `oiv`.`item_id` AS `item_id`, `oiv`.`item_name` AS `item_name` FROM `order_item_view` AS `oiv``oiv`  ;
 
 --
 -- Indexes for dumped tables
@@ -315,7 +418,8 @@ ALTER TABLE `checkout`
   ADD UNIQUE KEY `order_id` (`order_id`),
   ADD KEY `customer_id` (`customer_id`),
   ADD KEY `employee_id` (`employee_id`),
-  ADD KEY `payment_id` (`payment_id`);
+  ADD KEY `payment_id` (`payment_id`),
+  ADD KEY `ORDER_STATUS` (`order_status`);
 
 --
 -- Indexes for table `customer`
@@ -348,7 +452,8 @@ ALTER TABLE `ingredient`
 --
 ALTER TABLE `item`
   ADD PRIMARY KEY (`item_id`),
-  ADD UNIQUE KEY `item_id` (`item_id`);
+  ADD UNIQUE KEY `item_id` (`item_id`),
+  ADD KEY `ITEM_NAME` (`item_name`);
 
 --
 -- Indexes for table `itemingredient`
@@ -376,8 +481,9 @@ ALTER TABLE `payment`
 -- Indexes for table `review`
 --
 ALTER TABLE `review`
-  ADD KEY `customer_id` (`customer_id`),
-  ADD KEY `item_id` (`item_id`);
+  ADD PRIMARY KEY (`customer_id`,`item_id`),
+  ADD KEY `item_id` (`item_id`),
+  ADD KEY `RATING` (`rating`);
 
 --
 -- Indexes for table `takeout`
@@ -402,37 +508,37 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `checkout`
 --
 ALTER TABLE `checkout`
-  MODIFY `order_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `order_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT for table `customer`
 --
 ALTER TABLE `customer`
-  MODIFY `customer_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `customer_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- AUTO_INCREMENT for table `ingredient`
 --
 ALTER TABLE `ingredient`
-  MODIFY `ingredient_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `ingredient_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `item`
 --
 ALTER TABLE `item`
-  MODIFY `item_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `item_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `payment`
 --
 ALTER TABLE `payment`
-  MODIFY `payment_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `payment_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `user_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `user_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- Constraints for dumped tables
@@ -488,7 +594,7 @@ ALTER TABLE `payment`
 -- Constraints for table `review`
 --
 ALTER TABLE `review`
-  ADD CONSTRAINT `review_ibfk_1` FOREIGN KEY (`customer_id`) REFERENCES `customer` (`customer_id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `review_ibfk_1` FOREIGN KEY (`customer_id`) REFERENCES `customer` (`customer_id`),
   ADD CONSTRAINT `review_ibfk_2` FOREIGN KEY (`item_id`) REFERENCES `item` (`item_id`);
 
 --
