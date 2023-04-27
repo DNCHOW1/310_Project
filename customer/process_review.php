@@ -23,7 +23,7 @@
 <?php
 
 require_once("../connect_db.php");
-$conn = mysqli_connect();
+$conn = connect_mysql();
 
 $customer_id = json_decode($_COOKIE["currentUser"], true);
 
