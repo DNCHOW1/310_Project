@@ -24,9 +24,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (mysqli_num_rows($result) == 1) {
         // Login successful, redirect to homepage or dashboard
         while ($row = mysqli_fetch_assoc($result)) {
-            setcookie("currentUser", $row['user_id'], time()+86400*1); // expire in 1 day
-            setcookie("userType", $row['user_type'], time()+86400*1); // expire in 1 day
-            setcookie("isAdmin", $row['admin'], time()+86400*1); // expire in 1 day
+            setcookie("currentUser", $row['user_id'], time()+86400*1, "/"); // expire in 1 day
+            setcookie("userType", $row['user_type'], time()+86400*1, "/"); // expire in 1 day
+            setcookie("isAdmin", $row['admin'], time()+86400*1, "/"); // expire in 1 day
             if($row['user_type'] == 0){ // Regular Customer
                 header("Location: customer/home.php");
             } else{ // Employee

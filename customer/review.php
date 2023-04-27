@@ -5,10 +5,6 @@
 </head>
 <body>
         <h1>Reviews</h1>
-        <!-- Button for Create Review page -->
-        <!-- <form action="process_review.php" method="get">
-                <input type="submit" value="Create/Edit Review">
-        </form> -->
 </body>
 </html>
 

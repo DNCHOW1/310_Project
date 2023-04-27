@@ -37,9 +37,9 @@
     <script>
         function logout() {
             // Invalidate cookies
-            document.cookie = 'currentUser=; Max-Age=-99999999;'; 
-            document.cookie = 'cartItems=; Max-Age=-99999999';
-            document.cookie = 'userType=; Max-Age=-99999999';
+            document.cookie = 'currentUser=; Max-Age=-99999999;path=/'; 
+            document.cookie = 'cartItems=; Max-Age=-99999999;path=/';
+            document.cookie = 'userType=; Max-Age=-99999999;path=/';
 
             // Navigate back to login page
 			window.location.href = "../index.php";

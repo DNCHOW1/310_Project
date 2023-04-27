@@ -6,7 +6,7 @@
 <body>
     <?php
         // Delete the cart cookie, as we've used it already
-        setcookie("cartItems", null, time() - 180000000);
+        setcookie("cartItems", NULL, time() - 180000000000, "/");
 
     ?>
     <h2>New Order Successfully Created</h2>

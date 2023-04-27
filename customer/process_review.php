@@ -51,19 +51,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $item_id = $_POST["item_id"];
     $review = $_POST["review"];
     $rating = $_POST["rating"];
-    
 
     if (empty($item_id) || empty($review) || empty($rating)) {
         echo "Please fill out all required fields.";
     } else {
         // Insert review into database
         $upsertSql = "INSERT INTO Review (customer_id, item_id, review, rating)
-                        VALUES ('$customer_id', '$item_id', '$review', '$rating')
-                      ON DUPLICATE KEY UPDATE
-                        review = '$review',
-                        rating = '$rating'
-                        ";
-        mysqli_query($conn, $insertSql);
+                              VALUES 
+                                ('$customer_id', '$item_id', '$review', '$rating')
+                              ON DUPLICATE KEY UPDATE
+                                 review = '$review',
+                                 rating = '$rating'
+                             ";
+        mysqli_query($conn, $upsertSql);
     }
     mysqli_close($conn);
 }
