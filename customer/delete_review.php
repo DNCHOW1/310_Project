@@ -14,7 +14,7 @@
             $customer_id = json_decode($_COOKIE["currentUser"], true);
             require_once("../connect_db.php");
             $conn = connect_mysql();
-            $sql = "SELECT item_id, item_name FROM Review r JOIN Item i ON r.item_id = i.id WHERE r.customer_id = '$customer_id'";
+            $sql = "SELECT r.item_id, item_name FROM Review r JOIN Item i ON r.item_id = i.item_id WHERE r.customer_id = '$customer_id'";
             $result = mysqli_query($conn, $sql);
             while ($row = mysqli_fetch_assoc($result)) {
                 echo "<option value='".$row['item_id']."'>".$row['item_name']."</option>";
