@@ -33,7 +33,6 @@
     <form action="customer_review.php" method="get">
         <input type="submit" value="View Reviews">
     </form>
-    
     <script>
         function logout() {
             // Invalidate cookies

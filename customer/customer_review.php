@@ -11,6 +11,9 @@
         <form action="process_review.php" method="get">
                 <input type="submit" value="Create/Edit Review">
         </form>
+        <form action="delete_review.php" method="get">
+                <input type="submit" value="Delete Reviews">
+        </form>
         <?php 
             // How to get parameters from the query string
             // https://www.w3docs.com/snippets/php/get-url-query-string-parameters.html#:~:text=To%20get%20the%20query%20string,of%20the%20query%20string%20parameters.&text=Note%20that%20if%20the%20parameter,if%20a%20parameter%20is%20set.
