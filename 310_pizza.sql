@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 27, 2023 at 07:58 PM
+-- Generation Time: May 01, 2023 at 12:49 AM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.2.0
 
@@ -54,8 +54,7 @@ INSERT INTO `checkout` (`order_id`, `customer_id`, `employee_id`, `payment_id`, 
 (14, 13, NULL, 1, 0, '2023-04-10 18:23:46', NULL, 'delivery', 15.38),
 (15, 13, NULL, 1, 0, '2023-04-10 18:27:27', NULL, 'pickup', 7.69),
 (20, 13, 24, 3, 1, '2023-04-17 14:13:25', '2023-04-17 14:13:53', 'delivery', 75.9),
-(21, 13, 24, 5, 1, '2023-04-27 12:14:49', '2023-04-27 12:19:52', 'pickup', 7.69),
-(22, 27, NULL, 6, 0, '2023-04-27 12:23:37', '2023-04-27 12:23:37', 'delivery', 69.21);
+(21, 13, 24, 5, 1, '2023-04-27 12:14:49', '2023-04-27 12:19:52', 'pickup', 7.69);
 
 -- --------------------------------------------------------
 
@@ -78,8 +77,7 @@ CREATE TABLE `customer` (
 INSERT INTO `customer` (`customer_id`, `phone`, `street`, `city`, `zip_code`) VALUES
 (13, '742-528-2713', 'Random Street', 'Random City', 77840),
 (22, '2666738282', 'shf', 'city name', 72587),
-(23, '725-257-2792', 'shf', 'sjf', 72587),
-(27, '7327294829', 'Im in austin street', 'Austin', 77727);
+(23, '725-257-2792', 'shf', 'sjf', 72587);
 
 -- --------------------------------------------------------
 
@@ -104,8 +102,7 @@ INSERT INTO `delivery` (`order_id`, `address`, `city`, `zip_code`) VALUES
 (9, 'shf', 'sjf', 72587),
 (12, 'Test Address', 'Test City', 77840),
 (14, 'Random Street 3', 'Random City 3', 77840),
-(20, 'Random Street Test', 'Random City', 77840),
-(22, 'Cherryian Address', 'Houston', 77494);
+(20, 'Random Street Test', 'Random City', 77840);
 
 -- --------------------------------------------------------
 
@@ -240,8 +237,7 @@ INSERT INTO `orderitem` (`order_id`, `item_id`, `amount`) VALUES
 (15, 1, 1),
 (20, 1, 5),
 (20, 2, 5),
-(21, 1, 1),
-(22, 1, 9);
+(21, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -291,8 +287,7 @@ INSERT INTO `payment` (`customer_id`, `payment_id`, `name`, `cc_number`, `expira
 (13, 1, 'Arjun Grover', 982292847, '2023-04-05', 287),
 (13, 3, 'Dien Chau', 5297924298, '2023-12-01', 283),
 (13, 5, 'Ethan Cherry2', 287928, '2023-07-01', 294),
-(23, 4, 'Dien Chau', 33333333333, '2023-02-01', 98),
-(27, 6, 'Jellygumping', 275281893, '2023-07-01', 758);
+(23, 4, 'Dien Chau', 33333333333, '2023-02-01', 98);
 
 -- --------------------------------------------------------
 
@@ -314,8 +309,7 @@ CREATE TABLE `review` (
 
 INSERT INTO `review` (`customer_id`, `item_id`, `review`, `rating`, `datetime`) VALUES
 (13, 1, 'It sucks!', 1, '2023-04-27 12:17:49'),
-(13, 2, 'test', 5, '2023-04-26 19:19:57'),
-(27, 1, 'This pepperoni pizza made me gag, yick.', 2, '2023-04-27 12:24:21');
+(13, 2, 'test', 5, '2023-04-26 19:19:57');
 
 -- --------------------------------------------------------
 
@@ -364,8 +358,7 @@ INSERT INTO `user` (`user_id`, `username`, `password`, `first_name`, `last_name`
 (22, 'syed12', 'Abdullah', 'Syed', 'Asad', 'syedbasdphjsdj@gmail.com', 0),
 (23, 'syed', 'asad', 'syed', 'asad', 'syedbasdphjsdj@gmail.com', 0),
 (24, 'employee1', 'pass', 'firstname', 'lastname', 'firstlast@yahoo.com', 1),
-(25, 'admin1', 'pass', 'fname', 'lname', 'admin@hotmail.com', 1),
-(27, 'jelygun1', '123', 'Mohith', 'Jalagam', 'mohijelly@yahoo.com', 0);
+(25, 'admin1', 'pass', 'fname', 'lname', 'admin@hotmail.com', 1);
 
 -- --------------------------------------------------------
 
@@ -482,8 +475,8 @@ ALTER TABLE `payment`
 --
 ALTER TABLE `review`
   ADD PRIMARY KEY (`customer_id`,`item_id`),
-  ADD KEY `item_id` (`item_id`),
-  ADD KEY `RATING` (`rating`);
+  ADD KEY `RATING` (`rating`),
+  ADD KEY `review_ibfk_2` (`item_id`);
 
 --
 -- Indexes for table `takeout`
@@ -562,7 +555,7 @@ ALTER TABLE `customer`
 -- Constraints for table `delivery`
 --
 ALTER TABLE `delivery`
-  ADD CONSTRAINT `delivery_ibfk_1` FOREIGN KEY (`order_id`) REFERENCES `checkout` (`order_id`);
+  ADD CONSTRAINT `delivery_ibfk_1` FOREIGN KEY (`order_id`) REFERENCES `checkout` (`order_id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `employee`
@@ -588,14 +581,14 @@ ALTER TABLE `orderitem`
 -- Constraints for table `payment`
 --
 ALTER TABLE `payment`
-  ADD CONSTRAINT `payment_ibfk_1` FOREIGN KEY (`customer_id`) REFERENCES `customer` (`customer_id`);
+  ADD CONSTRAINT `payment_ibfk_1` FOREIGN KEY (`customer_id`) REFERENCES `customer` (`customer_id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `review`
 --
 ALTER TABLE `review`
-  ADD CONSTRAINT `review_ibfk_1` FOREIGN KEY (`customer_id`) REFERENCES `customer` (`customer_id`),
-  ADD CONSTRAINT `review_ibfk_2` FOREIGN KEY (`item_id`) REFERENCES `item` (`item_id`);
+  ADD CONSTRAINT `review_ibfk_1` FOREIGN KEY (`customer_id`) REFERENCES `customer` (`customer_id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `review_ibfk_2` FOREIGN KEY (`item_id`) REFERENCES `item` (`item_id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `takeout`
