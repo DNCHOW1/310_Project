@@ -9,6 +9,10 @@
     <!-- Logout button -->
     <button style="position: absolute; top: 10px; right: 10px;" onclick="logout()">Logout</button>
 
+    <form action="display_review.php" method="get">
+        <input type="submit" value="Display Reviews">
+    </form>
+
     <!-- AdminMenu Button -->
     <?php 
         if ($_COOKIE["isAdmin"] == 1) {

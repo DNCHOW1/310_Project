@@ -35,6 +35,39 @@
 
 <?php
 
+// require_once("../connect_db.php");
+// $conn = connect_mysql();
+
+// $customer_id = json_decode($_COOKIE["currentUser"], true);
+
+// // Check connection
+// if (!$conn) {
+//     die("Connection failed: " . mysqli_connect_error());
+// }
+
+// // Process form data
+// if ($_SERVER["REQUEST_METHOD"] == "POST") {
+//     // Validate form data
+//     $item_id = $_POST["item_id"];
+//     $review = $_POST["review"];
+//     $rating = $_POST["rating"];
+
+//     if (empty($item_id) || empty($review) || empty($rating)) {
+//         echo "Please fill out all required fields.";
+//     } else {
+//         // Insert review into database
+//         $upsertSql = "INSERT INTO Review (customer_id, item_id, review, rating)
+//                               VALUES 
+//                                 ('$customer_id', '$item_id', '$review', '$rating')
+//                               ON DUPLICATE KEY UPDATE
+//                                  review = '$review',
+//                                  rating = '$rating'
+//                              ";
+//         mysqli_query($conn, $upsertSql);
+//     }
+//     mysqli_close($conn);
+// }
+
 require_once("../connect_db.php");
 $conn = connect_mysql();
 
@@ -55,16 +88,29 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (empty($item_id) || empty($review) || empty($rating)) {
         echo "Please fill out all required fields.";
     } else {
-        // Insert review into database
-        $upsertSql = "INSERT INTO Review (customer_id, item_id, review, rating)
+        // Check if review already exists for the given item
+        $checkSql = "SELECT COUNT(*) as count FROM Review WHERE customer_id = '$customer_id' AND item_id = '$item_id'";
+        $checkResult = mysqli_query($conn, $checkSql);
+        $row = mysqli_fetch_assoc($checkResult);
+        $count = $row['count'];
+
+        if ($count == 0) {
+            // Insert new review into database
+            $insertSql = "INSERT INTO Review (customer_id, item_id, review, rating)
                               VALUES 
                                 ('$customer_id', '$item_id', '$review', '$rating')
-                              ON DUPLICATE KEY UPDATE
-                                 review = '$review',
-                                 rating = '$rating'
                              ";
-        mysqli_query($conn, $upsertSql);
+            mysqli_query($conn, $insertSql);
+            echo "Review added successfully.";
+        } else {
+            // Update existing review in database
+            $updateSql = "UPDATE Review SET review = '$review', rating = '$rating'
+                              WHERE customer_id = '$customer_id' AND item_id = '$item_id'";
+            mysqli_query($conn, $updateSql);
+            echo "Review updated successfully.";
+        }
     }
     mysqli_close($conn);
 }
+
 ?>
