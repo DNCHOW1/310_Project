@@ -7,7 +7,6 @@
     <h1>Delete Review</h1>
     <a href="home.php">Home</a>
     <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
-
         <label for="item_id">Select item to delete:</label>
         <select id="item_id" name="item_id" required>
             <?php
