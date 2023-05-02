@@ -9,11 +9,14 @@
     <!-- Logout button -->
     <button style="position: absolute; top: 10px; right: 10px;" onclick="logout()">Logout</button>
 
-    <form action="display_review.php" method="get">
-        <input type="submit" value="Display Reviews">
     <!-- Button for edit account info page -->
     <form action="edit_account.php" method="get">
         <input type="submit" value="Edit Account Info">
+    </form>
+
+    <!-- Button for displaying review page -->
+    <form action="display_review.php" method="get">
+        <input type="submit" value="Display Reviews">
     </form>
 
     <!-- AdminMenu Button -->
