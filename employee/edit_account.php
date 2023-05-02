@@ -2,14 +2,14 @@
 <html>
     <body>
         <?php
-            // Get the customer ID from cookie
-            $customerId = json_decode($_COOKIE["currentUser"], true);
+            // Get the employee ID from cookie
+            $employeeId = json_decode($_COOKIE["currentUser"], true);
             
             require_once("../connect_db.php");
             $conn = connect_mysql();
 
-            // Query the user,customer table for the customer's info
-            $sql = "SELECT * FROM Customer LEFT JOIN User ON Customer.customer_id = User.user_id WHERE Customer.customer_id = " . $customerId;
+            // Query the user,employee table for the employee's info
+            $sql = "SELECT * FROM Employee LEFT JOIN User ON Employee.employee_id = User.user_id WHERE Employee.employee_id = " . $employeeId;
             $result = mysqli_query($conn, $sql);
 
             // Check for results
@@ -23,10 +23,6 @@
                     $first_name = $row["first_name"];
                     $last_name = $row["last_name"];
                     $email = $row["email"];
-                    $phone = $row["phone"];
-                    $street = $row["street"];
-                    $city = $row["city"];
-                    $zip_code = $row["zip_code"];
                 }
             }
 
@@ -46,14 +42,6 @@
                 <input type="text" id="last_name" name="last_name" value="<?php echo $last_name ?>"><br><br>
                 <label for="email">Email:</label>
                 <input type="email" id="email" name="email" value="<?php echo $email ?>"><br><br>
-                <label for="phone">phone:</label>
-                <input type="phone" id="phone" name="phone" value="<?php echo $phone ?>"><br><br>
-                <label for="street">street:</label>
-                <input type="street" id="street" name="street" value="<?php echo $street ?>"><br><br>
-                <label for="city">city:</label>
-                <input type="city" id="city" name="city" value="<?php echo $city ?>"><br><br>
-                <label for="zip">zip:</label>
-                <input type="zip" id="zip" name="zip" value="<?php echo $zip_code ?>"><br><br>
                 <input type="submit" value="Save Changes">
             </form
             <br>
@@ -68,7 +56,7 @@
         <script>
             function goToHome() {
                 // Navigate back to the home page
-                window.location.href = "home.php";
+                window.location.href = "employee_home.php";
             }
         </script>
     </body>

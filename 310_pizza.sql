@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 01, 2023 at 12:49 AM
+-- Generation Time: May 03, 2023 at 01:01 AM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.2.0
 
@@ -122,6 +122,20 @@ CREATE TABLE `employee` (
 INSERT INTO `employee` (`employee_id`, `admin`) VALUES
 (24, 0),
 (25, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `employeecomment`
+--
+
+CREATE TABLE `employeecomment` (
+  `customer_id` bigint(20) UNSIGNED NOT NULL,
+  `item_id` bigint(20) UNSIGNED NOT NULL,
+  `employee_id` bigint(20) UNSIGNED NOT NULL,
+  `comment` text NOT NULL,
+  `datetime` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -357,7 +371,7 @@ INSERT INTO `user` (`user_id`, `username`, `password`, `first_name`, `last_name`
 (13, 'fs', 'hd', 'Arjun', 'Grover', 'dienkchau@gmail.com', 0),
 (22, 'syed12', 'Abdullah', 'Syed', 'Asad', 'syedbasdphjsdj@gmail.com', 0),
 (23, 'syed', 'asad', 'syed', 'asad', 'syedbasdphjsdj@gmail.com', 0),
-(24, 'employee1', 'pass', 'firstname', 'lastname', 'firstlast@yahoo.com', 1),
+(24, 'employee1', 'pass', 'firstname', 'lastname2', 'firstlast@yahoo.com', 1),
 (25, 'admin1', 'pass', 'fname', 'lname', 'admin@hotmail.com', 1);
 
 -- --------------------------------------------------------
@@ -397,7 +411,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 DROP TABLE IF EXISTS `user_item_view`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `user_item_view`  AS SELECT DISTINCT `oiv`.`customer_id` AS `customer_id`, `oiv`.`item_id` AS `item_id`, `oiv`.`item_name` AS `item_name` FROM `order_item_view` AS `oiv``oiv`  ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `user_item_view`  AS SELECT DISTINCT `oiv`.`customer_id` AS `customer_id`, `oiv`.`item_id` AS `item_id`, `oiv`.`item_name` AS `item_name` FROM `order_item_view` AS `oiv`  ;
 
 --
 -- Indexes for dumped tables
@@ -432,6 +446,14 @@ ALTER TABLE `delivery`
 --
 ALTER TABLE `employee`
   ADD KEY `employee_id` (`employee_id`);
+
+--
+-- Indexes for table `employeecomment`
+--
+ALTER TABLE `employeecomment`
+  ADD PRIMARY KEY (`customer_id`,`item_id`),
+  ADD KEY `employee_id` (`employee_id`),
+  ADD KEY `item_id` (`item_id`);
 
 --
 -- Indexes for table `ingredient`
@@ -501,13 +523,13 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `checkout`
 --
 ALTER TABLE `checkout`
-  MODIFY `order_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `order_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT for table `customer`
 --
 ALTER TABLE `customer`
-  MODIFY `customer_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `customer_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- AUTO_INCREMENT for table `ingredient`
@@ -525,13 +547,13 @@ ALTER TABLE `item`
 -- AUTO_INCREMENT for table `payment`
 --
 ALTER TABLE `payment`
-  MODIFY `payment_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `payment_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `user_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `user_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- Constraints for dumped tables
@@ -562,6 +584,14 @@ ALTER TABLE `delivery`
 --
 ALTER TABLE `employee`
   ADD CONSTRAINT `employee_ibfk_1` FOREIGN KEY (`employee_id`) REFERENCES `user` (`user_id`);
+
+--
+-- Constraints for table `employeecomment`
+--
+ALTER TABLE `employeecomment`
+  ADD CONSTRAINT `employeecomment_ibfk_1` FOREIGN KEY (`customer_id`) REFERENCES `customer` (`customer_id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `employeecomment_ibfk_2` FOREIGN KEY (`employee_id`) REFERENCES `employee` (`employee_id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `employeecomment_ibfk_3` FOREIGN KEY (`item_id`) REFERENCES `item` (`item_id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `itemingredient`

@@ -11,6 +11,9 @@
 
     <form action="display_review.php" method="get">
         <input type="submit" value="Display Reviews">
+    <!-- Button for edit account info page -->
+    <form action="edit_account.php" method="get">
+        <input type="submit" value="Edit Account Info">
     </form>
 
     <!-- AdminMenu Button -->
