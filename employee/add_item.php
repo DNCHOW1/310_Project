@@ -1,8 +1,11 @@
 <?php
-// Author: Syed Asad
-// Functionality: This file is the script to add a menu item
-// to the backend of the database using a post request. The
-// php code puts an sql query to push values into the database.
+ /*   
+    Author: Syed Asad
+    Functionality: This file is the script to add a menu item
+    to the backend of the database using a post request. The
+    php code puts an sql query to push values into the database.
+*/
+
 
 // Get form data
 $newname = $_POST["newname"];

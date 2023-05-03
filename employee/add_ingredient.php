@@ -1,11 +1,16 @@
 <?php
-// Author: Syed Asad
-// Functionality: This file is the script to add an ingredient to a menu item
-// to the backend of the database using a post request. The
-// php code puts an sql query to push values into the database. If the ingredient name
-// does not exist, then a new ingredient will be made and added into the 
-// association table in the database.
+
+/*
+Author: Syed Asad
+Functionality: This file is the script to add an ingredient to a menu item
+to the backend of the database using a post request. The
+php code puts an sql query to push values into the database. If the ingredient name 
+does not exist, then a new ingredient will be made and added into the 
+association table in the database.
+*/
+
 // Get form data
+
 $itemname = $_POST["itemname"];
 $ingredientname = $_POST["ingredientname"];
 

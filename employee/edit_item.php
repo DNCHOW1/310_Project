@@ -1,10 +1,14 @@
 <?php
-// Author: Syed Asad
-// Functionality: This file is the script to edit a menu item
-// to the backend of the database using a post request. The
-// php code puts an sql query to find the name of the menu item
-// to be changed and uses the fields in the text boxes to change
-// values such as the name, price, and description.
+
+/*   
+    Author: Syed Asad
+    Functionality: This file is the script to edit a menu item
+    to the backend of the database using a post request. The
+    php code puts an sql query to find the name of the menu item
+    to be changed and uses the fields in the text boxes to change
+    values such as the name, price, and description.
+*/
+
 // Get form data
 $oldname = $_POST["oldname"];
 $newname = $_POST["newname"];

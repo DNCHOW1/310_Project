@@ -1,3 +1,13 @@
+<!--
+		Author: Syed Asad
+		Functionality: This file is the frontend for the admin side for editing
+		menu items. Each section of PHP below puts text fields and buttons to submit
+		Each type of edit they want. There are buttons for deleting, editing, adding,
+		and associating menu items with ingredients.
+		Import and use function
+-->
+
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,12 +20,7 @@
 	
 	
 	<?php
-	// Author: Syed Asad
-		// Functionality: This file is the frontend for the admin side for editing
-		// menu items. Each section of PHP below puts text fields and buttons to submit
-		// Each type of edit they want. There are buttons for deleting, editing, adding,
-		// and associating menu items with ingredients.
-		// Import and use function
+
 		require_once("../connect_db.php");
 		$conn = connect_mysql();
 		
