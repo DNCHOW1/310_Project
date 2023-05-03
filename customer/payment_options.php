@@ -1,3 +1,9 @@
+<!--	
+	Author: Syed Asad
+	Functionality: This file works as the frontend for the payment options that the user sees.
+	There are buttons for adding and modifying a payment option and one for deleting too. There is
+	Also a button to go back to the previous page into the account editing screen.
+-->
 <!DOCTYPE html>
 <html>
 <head>

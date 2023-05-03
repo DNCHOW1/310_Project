@@ -1,4 +1,12 @@
 <?php
+/*
+Author: Syed Asad
+Functionality: This file handles the backend functions for the payment edits. If the payment option was
+deleted, then an SQL query deletes the payment method by its ID. If the payment option was added, then
+The Payment table was inserted into. If the payment option exists, then the payment method is updated
+also using an SQL query.
+*/
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Get the variables from the post request
     $name = $_POST["name"];

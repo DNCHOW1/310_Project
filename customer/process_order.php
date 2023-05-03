@@ -1,7 +1,10 @@
 <?php
 
 /*
-
+     Author: Syed Asad
+     Functionality: This file works as the backend for processing an order given payment information and
+     items in the cart. This makes many inserts into various tables for taking care of the checkout, payment,
+     Takeout, and OrderItem. The checkout table is also updated by an SQL query to update the price.
 */
 
 $name = $_POST["name"];
