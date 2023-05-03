@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: May 03, 2023 at 01:01 AM
--- Server version: 10.4.27-MariaDB
--- PHP Version: 8.2.0
+-- Host: localhost
+-- Generation Time: May 03, 2023 at 02:45 AM
+-- Server version: 10.4.28-MariaDB
+-- PHP Version: 8.2.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -54,7 +54,8 @@ INSERT INTO `checkout` (`order_id`, `customer_id`, `employee_id`, `payment_id`, 
 (14, 13, NULL, 1, 0, '2023-04-10 18:23:46', NULL, 'delivery', 15.38),
 (15, 13, NULL, 1, 0, '2023-04-10 18:27:27', NULL, 'pickup', 7.69),
 (20, 13, 24, 3, 1, '2023-04-17 14:13:25', '2023-04-17 14:13:53', 'delivery', 75.9),
-(21, 13, 24, 5, 1, '2023-04-27 12:14:49', '2023-04-27 12:19:52', 'pickup', 7.69);
+(21, 13, 24, 5, 1, '2023-04-27 12:14:49', '2023-04-27 12:19:52', 'pickup', 7.69),
+(26, 23, NULL, 8, 0, '2023-05-02 19:43:49', '2023-05-02 19:43:49', 'pickup', 30.67);
 
 -- --------------------------------------------------------
 
@@ -136,6 +137,14 @@ CREATE TABLE `employeecomment` (
   `comment` text NOT NULL,
   `datetime` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `employeecomment`
+--
+
+INSERT INTO `employeecomment` (`customer_id`, `item_id`, `employee_id`, `comment`, `datetime`) VALUES
+(13, 1, 25, 'acc we hope we can recreate this experience for you', '2023-05-03 00:15:33'),
+(13, 2, 25, 'glad to hear', '2023-05-03 00:18:50');
 
 -- --------------------------------------------------------
 
@@ -251,7 +260,10 @@ INSERT INTO `orderitem` (`order_id`, `item_id`, `amount`) VALUES
 (15, 1, 1),
 (20, 1, 5),
 (20, 2, 5),
-(21, 1, 1);
+(21, 1, 1),
+(26, 1, 1),
+(26, 2, 1),
+(26, 4, 1);
 
 -- --------------------------------------------------------
 
@@ -301,7 +313,8 @@ INSERT INTO `payment` (`customer_id`, `payment_id`, `name`, `cc_number`, `expira
 (13, 1, 'Arjun Grover', 982292847, '2023-04-05', 287),
 (13, 3, 'Dien Chau', 5297924298, '2023-12-01', 283),
 (13, 5, 'Ethan Cherry2', 287928, '2023-07-01', 294),
-(23, 4, 'Dien Chau', 33333333333, '2023-02-01', 98);
+(23, 4, 'Dien Chau', 33333333333, '2023-02-01', 98),
+(23, 8, 'syed asad', 1233445556454324, '2023-06-01', 123);
 
 -- --------------------------------------------------------
 
@@ -322,8 +335,26 @@ CREATE TABLE `review` (
 --
 
 INSERT INTO `review` (`customer_id`, `item_id`, `review`, `rating`, `datetime`) VALUES
-(13, 1, 'It sucks!', 1, '2023-04-27 12:17:49'),
-(13, 2, 'test', 5, '2023-04-26 19:19:57');
+(13, 2, '\"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.\"\r\n', 1, '2023-05-02 19:42:14'),
+(23, 2, 'great pizza! best one yet', 5, '2023-05-02 19:44:12'),
+(23, 4, 'not my favorite pizza', 3, '2023-05-02 19:44:03');
+
+-- --------------------------------------------------------
+
+--
+-- Stand-in structure for view `review_and_comment_view`
+-- (See below for the actual view)
+--
+CREATE TABLE `review_and_comment_view` (
+`item_id` bigint(20) unsigned
+,`customer_id` bigint(20) unsigned
+,`employee_id` bigint(20) unsigned
+,`review` text
+,`rating` int(11)
+,`review_date` datetime
+,`comment` text
+,`comment_date` timestamp
+);
 
 -- --------------------------------------------------------
 
@@ -345,7 +376,8 @@ INSERT INTO `takeout` (`order_id`, `pickupTime`) VALUES
 (10, '2023-04-10 11:47:00'),
 (13, '2023-04-11 06:10:00'),
 (15, '2023-04-11 18:31:00'),
-(21, '2023-04-27 06:20:00');
+(21, '2023-04-27 06:20:00'),
+(26, '2023-05-03 17:10:00');
 
 -- --------------------------------------------------------
 
@@ -393,7 +425,7 @@ CREATE TABLE `user_item_view` (
 --
 DROP TABLE IF EXISTS `item_ingredient_view`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `item_ingredient_view`  AS SELECT `i`.`item_id` AS `item_id`, `i`.`item_name` AS `item_name`, `i`.`price` AS `price`, `i`.`description` AS `description`, `ing`.`ingredient_id` AS `ingredient_id`, `ing`.`ingredient_name` AS `ingredient_name` FROM ((`item` `i` left join `itemingredient` on(`i`.`item_id` = `itemingredient`.`item_id`)) left join `ingredient` `ing` on(`itemingredient`.`ingredient_id` = `ing`.`ingredient_id`))  ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `item_ingredient_view`  AS SELECT `i`.`item_id` AS `item_id`, `i`.`item_name` AS `item_name`, `i`.`price` AS `price`, `i`.`description` AS `description`, `ing`.`ingredient_id` AS `ingredient_id`, `ing`.`ingredient_name` AS `ingredient_name` FROM ((`item` `i` left join `itemingredient` on(`i`.`item_id` = `itemingredient`.`item_id`)) left join `ingredient` `ing` on(`itemingredient`.`ingredient_id` = `ing`.`ingredient_id`)) ;
 
 -- --------------------------------------------------------
 
@@ -402,7 +434,16 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 DROP TABLE IF EXISTS `order_item_view`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `order_item_view`  AS SELECT `c`.`order_id` AS `order_id`, `c`.`customer_id` AS `customer_id`, `c`.`order_status` AS `order_status`, `c`.`time_ordered` AS `time_ordered`, `c`.`time_fufilled` AS `time_fufilled`, `c`.`order_type` AS `order_type`, `c`.`total_price` AS `total_price`, `d`.`address` AS `address`, `d`.`city` AS `city`, `d`.`zip_code` AS `zip_code`, `t`.`pickupTime` AS `pickupTime`, `oi`.`amount` AS `amount`, `i`.`item_id` AS `item_id`, `i`.`item_name` AS `item_name`, `i`.`description` AS `description`, round(`i`.`price` * `oi`.`amount`,2) AS `order_item_price` FROM ((((`checkout` `c` left join `delivery` `d` on(`c`.`order_id` = `d`.`order_id`)) left join `takeout` `t` on(`c`.`order_id` = `t`.`order_id`)) left join `orderitem` `oi` on(`c`.`order_id` = `oi`.`order_id`)) left join `item` `i` on(`oi`.`item_id` = `i`.`item_id`))  ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `order_item_view`  AS SELECT `c`.`order_id` AS `order_id`, `c`.`customer_id` AS `customer_id`, `c`.`order_status` AS `order_status`, `c`.`time_ordered` AS `time_ordered`, `c`.`time_fufilled` AS `time_fufilled`, `c`.`order_type` AS `order_type`, `c`.`total_price` AS `total_price`, `d`.`address` AS `address`, `d`.`city` AS `city`, `d`.`zip_code` AS `zip_code`, `t`.`pickupTime` AS `pickupTime`, `oi`.`amount` AS `amount`, `i`.`item_id` AS `item_id`, `i`.`item_name` AS `item_name`, `i`.`description` AS `description`, round(`i`.`price` * `oi`.`amount`,2) AS `order_item_price` FROM ((((`checkout` `c` left join `delivery` `d` on(`c`.`order_id` = `d`.`order_id`)) left join `takeout` `t` on(`c`.`order_id` = `t`.`order_id`)) left join `orderitem` `oi` on(`c`.`order_id` = `oi`.`order_id`)) left join `item` `i` on(`oi`.`item_id` = `i`.`item_id`)) ;
+
+-- --------------------------------------------------------
+
+--
+-- Structure for view `review_and_comment_view`
+--
+DROP TABLE IF EXISTS `review_and_comment_view`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `review_and_comment_view`  AS SELECT `r`.`item_id` AS `item_id`, `r`.`customer_id` AS `customer_id`, `ec`.`employee_id` AS `employee_id`, `r`.`review` AS `review`, `r`.`rating` AS `rating`, `r`.`datetime` AS `review_date`, `ec`.`comment` AS `comment`, `ec`.`datetime` AS `comment_date` FROM (`review` `r` left join `employeecomment` `ec` on(`r`.`item_id` = `ec`.`item_id` and `r`.`customer_id` = `ec`.`customer_id`)) ;
 
 -- --------------------------------------------------------
 
@@ -411,7 +452,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 DROP TABLE IF EXISTS `user_item_view`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `user_item_view`  AS SELECT DISTINCT `oiv`.`customer_id` AS `customer_id`, `oiv`.`item_id` AS `item_id`, `oiv`.`item_name` AS `item_name` FROM `order_item_view` AS `oiv`  ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `user_item_view`  AS SELECT DISTINCT `oiv`.`customer_id` AS `customer_id`, `oiv`.`item_id` AS `item_id`, `oiv`.`item_name` AS `item_name` FROM `order_item_view` AS `oiv` ;
 
 --
 -- Indexes for dumped tables
@@ -523,7 +564,7 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `checkout`
 --
 ALTER TABLE `checkout`
-  MODIFY `order_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `order_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT for table `customer`
@@ -547,7 +588,7 @@ ALTER TABLE `item`
 -- AUTO_INCREMENT for table `payment`
 --
 ALTER TABLE `payment`
-  MODIFY `payment_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `payment_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `user`
