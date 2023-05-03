@@ -43,13 +43,13 @@ catch (\Throwable $e) {
     // An exception thrown, rollback...
     $conn->rollback();
 
-    // catch error on distinct username/email: TODO
     echo $e->getCode();
     if (mysqli_errno($e) == 1062) {
         print 'no way!';
+    } else{
+        throw $e; // handle exception
     }
 
-    throw $e; // handle exception
 }
 
 // Close connection
