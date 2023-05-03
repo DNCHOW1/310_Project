@@ -35,6 +35,7 @@
         ?>
         <div id="edit-account">
             <h2>User Creation</h2>
+
             <form method="post" action="update_info.php">
                 <label for="username">Username:</label>
                 <input disabled type="text" id="username" name="username" value="<?php echo $username ?>"><br><br>
@@ -55,11 +56,20 @@
                 <label for="zip">zip:</label>
                 <input type="zip" id="zip" name="zip" value="<?php echo $zip_code ?>"><br><br>
                 <input type="submit" value="Save Changes">
-            </form
+            </form>
             <br>
+
+            <!-- Button to go to the payment information for the given user -->
+            <form method="post" action="payment_options.php">
+                <input type="submit" value="Payment Options">
+            </form>
+            <br>
+
+            <!-- Button to delete the account -->
             <form method="post" action="delete_acc.php">
                 <input type="submit" value="Delete Account">
             </form>
+            <br>
         </div>
 
         <!-- Button to go back to the home page -->

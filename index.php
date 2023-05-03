@@ -7,5 +7,6 @@
         <input type="password" id="password" name="password"><br><br>
         <input type="submit" value="Login">
         <a href="/register/register.php"><button type="button">Register</button></a>
+        <a href="/register/employee_register.php"><button type="button">Employee Register</button></a>
     </form>
 </div>

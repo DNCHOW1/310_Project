@@ -5,10 +5,14 @@ $password = $_POST["password"];
 $first_name = $_POST["first_name"];
 $last_name = $_POST["last_name"];
 $email = $_POST["email"];
-$phone = $_POST["phone"];
-$street = $_POST["street"];
-$city = $_POST["city"];
-$zip = $_POST["zip"];
+if(isset($_POST["phone"])){
+    $phone = $_POST["phone"];
+    $street = $_POST["street"];
+    $city = $_POST["city"];
+    $zip = $_POST["zip"];
+} else{
+    $isAdmin = $_POST["employee_type"];
+}
 
 require_once("../connect_db.php");
 $conn = connect_mysql();
@@ -22,11 +26,16 @@ try{
             VALUES ('$username', '$password', '$first_name', '$last_name', '$email', '0')";
     mysqli_query($conn, $sql_user);
 
-    // Insert new customer into Customer table using last inserted id
     $last_id = mysqli_insert_id($conn);
-    $sql_customer = "INSERT INTO Customer (customer_id, phone, street, city, zip_code)
-        VALUES ('$last_id', '$phone', '$street', '$city', '$zip')";
-    mysqli_query($conn, $sql_customer);
+    if( isset($_POST["phone"]) ){
+        // Insert new customer into Customer table using last inserted id
+        $sql_user_type = "INSERT INTO Customer (customer_id, phone, street, city, zip_code)
+            VALUES ('$last_id', '$phone', '$street', '$city', '$zip')";
+    } else{
+        $sql_user_type = "INSERT INTO Employee (employee_id, admin)
+            VALUES ('$last_id', '$isAdmin')";
+    }
+    mysqli_query($conn, $sql_user_type);
 
     mysqli_commit($conn);
 
