@@ -1,3 +1,13 @@
+<!-- 
+    This file is the page for the home screen for the employee. This will display a multitude of buttons for the employee to navigate to, including
+    editing their account, viewing the admin menu(if admin), viewing reviews... Each of the team members had to contribute slightly to add their respective
+    functionality button to this page.
+
+    The main view on this page that displays the ongoing orders for all customers was done by Dien Chau.
+
+    This page was worked on by Dien Chau, Syed Asad, and Ekdev.
+ -->
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,23 +19,24 @@
     <!-- Logout button -->
     <button style="position: absolute; top: 10px; right: 10px;" onclick="logout()">Logout</button>
 
-    <!-- Button for edit account info page -->
+    <!-- Button for edit account info page (Dien Chau) -->
     <form action="edit_account.php" method="get">
         <input type="submit" value="Edit Account Info">
     </form>
 
-    <!-- Button for displaying review page -->
+    <!-- Button for displaying review page (Ekdev) -->
     <form action="display_review.php" method="get">
         <input type="submit" value="Display Reviews">
     </form>
 
-    <!-- AdminMenu Button -->
+    <!-- AdminMenu Button (Syed Asad) -->
     <?php 
         if ($_COOKIE["isAdmin"] == 1) {
             echo '<button type="button" onclick="adminMenu()">Admin Menu</button>';
         }
     ?>
     
+    <!-- Ongoing orders, all the orders with status 0 for ALL USERS (Dien Chau) -->
     <h2> Ongoing Orders </h2>
     <?php
 
@@ -37,7 +48,7 @@
         require_once("../connect_db.php");
 		$conn = connect_mysql();
 
-        // Query the "order_item_view" table to get the processed view easily, this view will be tailored specifically for employees
+        // Query the "order_item_view" table to get the processed view easily, this view will be tailored specifically for employees (Dien Chau)
 		$sql = "SELECT * FROM order_item_view oiv WHERE oiv.order_status = 0 ORDER BY oiv.time_ordered ASC";
 		$result = mysqli_query($conn, $sql);
 
@@ -97,6 +108,8 @@
     ?>
     
     <script>
+
+        // Dien Chau
         function logout() {
             // Invalidate cookies
             document.cookie = 'currentUser=; Max-Age=-99999999;'; 

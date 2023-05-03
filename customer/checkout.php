@@ -1,3 +1,11 @@
+<!-- 
+This code is the checkout screen after a user has continued on from finalizing their cart. On this screen, a user will
+be able to select a pre-existing payment option or create a new one. Additionally, they'll be able to choose the type of order they want, 
+a delivery or takeout, as well as fill in the related attributes to that type. The results of this page will be forwarded to "process_order.php"
+
+This code was done by Dien Chau and Arjun Grover (dropped).
+ -->
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,7 +17,7 @@
 	<?php
 		$finalPaymentId = -1;
 
-		// Add radio button for each payment
+		// Add radio button for each payment (Dien)
 		function createRadioButton($paymentId, $name, $cc_number, $cc_expiration, $cc_security_code, $label, $checked=FALSE){ 
 			$paymentInfo = array(
 				"payment_id" => $paymentId,
@@ -33,7 +41,7 @@
 		require_once("../connect_db.php");
 		$conn = connect_mysql();
 		
-		// Query the "payment" table for the customer's payment info
+		// Query the "payment" table for the customer's payment info (Dien)
 		$sql = "SELECT * FROM payment WHERE customer_id = $customerId";
 		$result = mysqli_query($conn, $sql);
 		
@@ -43,7 +51,7 @@
 		if (mysqli_num_rows($result) > 0) {
 			$index = 0;
 
-			// Display the payment info and autofill the fields
+			// Display the payment info and autofill the fields (Dien)
 			while ($row = mysqli_fetch_assoc($result)) {
 				$name = $row["name"];
 				$cc_number = $row["cc_number"];
@@ -63,11 +71,11 @@
 			$paymentId = "";
 		}
 		
-		// Query the "Customer" table for the customer's address info
+		// Query the "Customer" table for the customer's address info (Arjun)
 		$sql_address = "SELECT * FROM Customer WHERE customer_id = " . $customerId;
 		$result_address = mysqli_query($conn, $sql_address);
 		
-		// Check for results
+		// Check for results (Arjun)
 		if (mysqli_num_rows($result_address) > 0) {
 			// Fetch the address info and store it in variables
 			while ($row_address = mysqli_fetch_assoc($result_address)) {
@@ -80,7 +88,6 @@
 			// Leave the fields blank
 			$address = "";
 			$city = "";
-			// $state = "";
 			$zip = "";
 		}
 		
@@ -88,6 +95,7 @@
 		mysqli_close($conn);
 	?>
 	
+	<!-- Html below was joint effort by Dien and Arjun -->
 	<form method="post" action="process_order.php">
 	
 		<label for="name">Name:</label>
@@ -144,6 +152,7 @@
 			window.location.href = "cart.php";
 		}
 		
+		// Upon selecting a dropdown, will show either pickup options or takeout options (Arjun)
 		function showFields() {
 			let orderType = document.getElementById("orderType").value;
 			let pickupFields = document.getElementById("pickupFields");
@@ -162,6 +171,7 @@
 			}
 		}
 
+		// Radio buttons for the payment options. If a new radio button is clicked it will update the values to forward to next page (Dien)
 		var paymentRadioButtons = document.getElementsByName("payment_id");
 		for (var i = 0; i < paymentRadioButtons.length; i++) {
 			paymentRadioButtons[i].addEventListener("change", function() {

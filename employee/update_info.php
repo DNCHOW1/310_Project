@@ -1,4 +1,13 @@
 <?php
+
+/*
+    When the user chooses to update their info on the "edit_account.php" page and hits "Save Changes" they are redirected to this page,
+    which will handle the logic for updating the row in the database. This uses an UPDATE command.
+
+    This file was done by Dien Chau.
+*/
+
+// Read in form data
 $PASS = $_POST["password"];
 $firstName = $_POST["first_name"];
 $lastName = $_POST["last_name"];

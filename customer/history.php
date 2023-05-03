@@ -1,3 +1,11 @@
+<!-- 
+	This file generates all the completed orders for a given user. The orders that appear on this page have been served by an employee 
+	already and thus they are considered completed. The orders are ordered by checkout time descending and utilize a select statement with
+	a join, then this is used to display the results.
+
+	This file was done by Dien Chau.
+ -->
+
 <!DOCTYPE html>
 <html>
 <head>

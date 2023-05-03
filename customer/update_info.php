@@ -1,4 +1,12 @@
 <?php
+
+/*
+    When the user chooses to update their info on the "edit_account.php" page and hits "Save Changes" they are redirected to this page,
+    which will handle the logic for updating the row in the database. This uses an UPDATE command.
+
+    This file was done by Dien Chau.
+*/
+
 $PASS = $_POST["password"];
 $firstName = $_POST["first_name"];
 $lastName = $_POST["last_name"];
@@ -10,7 +18,8 @@ $zip = $_POST["zip"];
 
 // Get the customer ID from a session variable or form data
 $customerId = json_decode($_COOKIE["currentUser"], true);
-        
+
+// Connect to the database
 require_once("../connect_db.php");
 $conn = connect_mysql();
 

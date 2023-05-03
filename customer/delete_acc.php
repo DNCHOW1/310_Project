@@ -1,5 +1,13 @@
 <?php
 
+/*
+This file is responsible for deleting a customer account. This is rather simple as we just need to delete from the User table, and then
+the change will cascade down to all the other tables that use this as a foreign key.
+
+This file was done by Dien Chau.
+*/
+
+// Connect to the database
 require_once("../connect_db.php");
 $conn = connect_mysql();
 

@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.1
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost
--- Generation Time: May 03, 2023 at 02:45 AM
--- Server version: 10.4.28-MariaDB
--- PHP Version: 8.2.4
+-- Host: 127.0.0.1
+-- Generation Time: May 03, 2023 at 09:09 AM
+-- Server version: 10.4.27-MariaDB
+-- PHP Version: 8.2.0
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -54,7 +54,6 @@ INSERT INTO `checkout` (`order_id`, `customer_id`, `employee_id`, `payment_id`, 
 (14, 13, NULL, 1, 0, '2023-04-10 18:23:46', NULL, 'delivery', 15.38),
 (15, 13, NULL, 1, 0, '2023-04-10 18:27:27', NULL, 'pickup', 7.69),
 (20, 13, 24, 3, 1, '2023-04-17 14:13:25', '2023-04-17 14:13:53', 'delivery', 75.9),
-(21, 13, 24, 5, 1, '2023-04-27 12:14:49', '2023-04-27 12:19:52', 'pickup', 7.69),
 (26, 23, NULL, 8, 0, '2023-05-02 19:43:49', '2023-05-02 19:43:49', 'pickup', 30.67);
 
 -- --------------------------------------------------------
@@ -78,7 +77,29 @@ CREATE TABLE `customer` (
 INSERT INTO `customer` (`customer_id`, `phone`, `street`, `city`, `zip_code`) VALUES
 (13, '742-528-2713', 'Random Street', 'Random City', 77840),
 (22, '2666738282', 'shf', 'city name', 72587),
-(23, '725-257-2792', 'shf', 'sjf', 72587);
+(23, '725-257-2792', 'shf', 'sjf', 72587),
+(34, '795828725728', 'Bonnie Holland', 'Katy', 77494);
+
+-- --------------------------------------------------------
+
+--
+-- Stand-in structure for view `customer_view`
+-- (See below for the actual view)
+--
+CREATE TABLE `customer_view` (
+`customer_id` bigint(20) unsigned
+,`phone` varchar(255)
+,`street` varchar(255)
+,`city` varchar(255)
+,`zip_code` int(11)
+,`user_id` bigint(20) unsigned
+,`username` varchar(255)
+,`password` varchar(255)
+,`first_name` varchar(255)
+,`last_name` varchar(255)
+,`email` varchar(255)
+,`user_type` int(11)
+);
 
 -- --------------------------------------------------------
 
@@ -122,7 +143,8 @@ CREATE TABLE `employee` (
 
 INSERT INTO `employee` (`employee_id`, `admin`) VALUES
 (24, 0),
-(25, 1);
+(25, 1),
+(33, 0);
 
 -- --------------------------------------------------------
 
@@ -145,6 +167,24 @@ CREATE TABLE `employeecomment` (
 INSERT INTO `employeecomment` (`customer_id`, `item_id`, `employee_id`, `comment`, `datetime`) VALUES
 (13, 1, 25, 'acc we hope we can recreate this experience for you', '2023-05-03 00:15:33'),
 (13, 2, 25, 'glad to hear', '2023-05-03 00:18:50');
+
+-- --------------------------------------------------------
+
+--
+-- Stand-in structure for view `employee_view`
+-- (See below for the actual view)
+--
+CREATE TABLE `employee_view` (
+`employee_id` bigint(20) unsigned
+,`admin` int(11)
+,`user_id` bigint(20) unsigned
+,`username` varchar(255)
+,`password` varchar(255)
+,`first_name` varchar(255)
+,`last_name` varchar(255)
+,`email` varchar(255)
+,`user_type` int(11)
+);
 
 -- --------------------------------------------------------
 
@@ -187,8 +227,8 @@ CREATE TABLE `item` (
 --
 
 INSERT INTO `item` (`item_id`, `item_name`, `price`, `description`) VALUES
-(1, 'pepperoni pizza', 7.69, 'Pizza with pepperoni pizza and cheese. Nutritious and healthy.'),
-(2, 'cheese pizza', 7.49, 'Pizza with cheese.'),
+(1, 'Pepperoni Pizza', 7.69, 'Pizza with pepperoni pizza and cheese. Nutritious and healthy.'),
+(2, 'Cheese Pizza', 7.49, 'Pizza with cheese.'),
 (4, 'Sausage and Pepperoni Pizza', 15.49, 'This pizza has sausage AND pepperoni!');
 
 -- --------------------------------------------------------
@@ -260,7 +300,6 @@ INSERT INTO `orderitem` (`order_id`, `item_id`, `amount`) VALUES
 (15, 1, 1),
 (20, 1, 5),
 (20, 2, 5),
-(21, 1, 1),
 (26, 1, 1),
 (26, 2, 1),
 (26, 4, 1);
@@ -312,7 +351,7 @@ CREATE TABLE `payment` (
 INSERT INTO `payment` (`customer_id`, `payment_id`, `name`, `cc_number`, `expiration`, `security_code`) VALUES
 (13, 1, 'Arjun Grover', 982292847, '2023-04-05', 287),
 (13, 3, 'Dien Chau', 5297924298, '2023-12-01', 283),
-(13, 5, 'Ethan Cherry2', 287928, '2023-07-01', 294),
+(13, 9, 'Pablo Frausto', 82945728582, '2023-10-01', 923),
 (23, 4, 'Dien Chau', 33333333333, '2023-02-01', 98),
 (23, 8, 'syed asad', 1233445556454324, '2023-06-01', 123);
 
@@ -376,7 +415,6 @@ INSERT INTO `takeout` (`order_id`, `pickupTime`) VALUES
 (10, '2023-04-10 11:47:00'),
 (13, '2023-04-11 06:10:00'),
 (15, '2023-04-11 18:31:00'),
-(21, '2023-04-27 06:20:00'),
 (26, '2023-05-03 17:10:00');
 
 -- --------------------------------------------------------
@@ -404,7 +442,9 @@ INSERT INTO `user` (`user_id`, `username`, `password`, `first_name`, `last_name`
 (22, 'syed12', 'Abdullah', 'Syed', 'Asad', 'syedbasdphjsdj@gmail.com', 0),
 (23, 'syed', 'asad', 'syed', 'asad', 'syedbasdphjsdj@gmail.com', 0),
 (24, 'employee1', 'pass', 'firstname', 'lastname2', 'firstlast@yahoo.com', 1),
-(25, 'admin1', 'pass', 'fname', 'lname', 'admin@hotmail.com', 1);
+(25, 'admin1', 'pass', 'fname', 'lname', 'admin@hotmail.com', 1),
+(33, 'employee2', 'pass', 'chris', 'lanky', 'chrislanks@tamu.edu', 0),
+(34, 'pp', '123', 'pryce', 'poole', 'pp@yahoo.com', 0);
 
 -- --------------------------------------------------------
 
@@ -421,11 +461,29 @@ CREATE TABLE `user_item_view` (
 -- --------------------------------------------------------
 
 --
+-- Structure for view `customer_view`
+--
+DROP TABLE IF EXISTS `customer_view`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `customer_view`  AS SELECT `customer`.`customer_id` AS `customer_id`, `customer`.`phone` AS `phone`, `customer`.`street` AS `street`, `customer`.`city` AS `city`, `customer`.`zip_code` AS `zip_code`, `user`.`user_id` AS `user_id`, `user`.`username` AS `username`, `user`.`password` AS `password`, `user`.`first_name` AS `first_name`, `user`.`last_name` AS `last_name`, `user`.`email` AS `email`, `user`.`user_type` AS `user_type` FROM (`customer` left join `user` on(`customer`.`customer_id` = `user`.`user_id`))  ;
+
+-- --------------------------------------------------------
+
+--
+-- Structure for view `employee_view`
+--
+DROP TABLE IF EXISTS `employee_view`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `employee_view`  AS SELECT `employee`.`employee_id` AS `employee_id`, `employee`.`admin` AS `admin`, `user`.`user_id` AS `user_id`, `user`.`username` AS `username`, `user`.`password` AS `password`, `user`.`first_name` AS `first_name`, `user`.`last_name` AS `last_name`, `user`.`email` AS `email`, `user`.`user_type` AS `user_type` FROM (`employee` left join `user` on(`employee`.`employee_id` = `user`.`user_id`))  ;
+
+-- --------------------------------------------------------
+
+--
 -- Structure for view `item_ingredient_view`
 --
 DROP TABLE IF EXISTS `item_ingredient_view`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `item_ingredient_view`  AS SELECT `i`.`item_id` AS `item_id`, `i`.`item_name` AS `item_name`, `i`.`price` AS `price`, `i`.`description` AS `description`, `ing`.`ingredient_id` AS `ingredient_id`, `ing`.`ingredient_name` AS `ingredient_name` FROM ((`item` `i` left join `itemingredient` on(`i`.`item_id` = `itemingredient`.`item_id`)) left join `ingredient` `ing` on(`itemingredient`.`ingredient_id` = `ing`.`ingredient_id`)) ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `item_ingredient_view`  AS SELECT `i`.`item_id` AS `item_id`, `i`.`item_name` AS `item_name`, `i`.`price` AS `price`, `i`.`description` AS `description`, `ing`.`ingredient_id` AS `ingredient_id`, `ing`.`ingredient_name` AS `ingredient_name` FROM ((`item` `i` left join `itemingredient` on(`i`.`item_id` = `itemingredient`.`item_id`)) left join `ingredient` `ing` on(`itemingredient`.`ingredient_id` = `ing`.`ingredient_id`))  ;
 
 -- --------------------------------------------------------
 
@@ -434,7 +492,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 DROP TABLE IF EXISTS `order_item_view`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `order_item_view`  AS SELECT `c`.`order_id` AS `order_id`, `c`.`customer_id` AS `customer_id`, `c`.`order_status` AS `order_status`, `c`.`time_ordered` AS `time_ordered`, `c`.`time_fufilled` AS `time_fufilled`, `c`.`order_type` AS `order_type`, `c`.`total_price` AS `total_price`, `d`.`address` AS `address`, `d`.`city` AS `city`, `d`.`zip_code` AS `zip_code`, `t`.`pickupTime` AS `pickupTime`, `oi`.`amount` AS `amount`, `i`.`item_id` AS `item_id`, `i`.`item_name` AS `item_name`, `i`.`description` AS `description`, round(`i`.`price` * `oi`.`amount`,2) AS `order_item_price` FROM ((((`checkout` `c` left join `delivery` `d` on(`c`.`order_id` = `d`.`order_id`)) left join `takeout` `t` on(`c`.`order_id` = `t`.`order_id`)) left join `orderitem` `oi` on(`c`.`order_id` = `oi`.`order_id`)) left join `item` `i` on(`oi`.`item_id` = `i`.`item_id`)) ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `order_item_view`  AS SELECT `c`.`order_id` AS `order_id`, `c`.`customer_id` AS `customer_id`, `c`.`order_status` AS `order_status`, `c`.`time_ordered` AS `time_ordered`, `c`.`time_fufilled` AS `time_fufilled`, `c`.`order_type` AS `order_type`, `c`.`total_price` AS `total_price`, `d`.`address` AS `address`, `d`.`city` AS `city`, `d`.`zip_code` AS `zip_code`, `t`.`pickupTime` AS `pickupTime`, `oi`.`amount` AS `amount`, `i`.`item_id` AS `item_id`, `i`.`item_name` AS `item_name`, `i`.`description` AS `description`, round(`i`.`price` * `oi`.`amount`,2) AS `order_item_price` FROM ((((`checkout` `c` left join `delivery` `d` on(`c`.`order_id` = `d`.`order_id`)) left join `takeout` `t` on(`c`.`order_id` = `t`.`order_id`)) left join `orderitem` `oi` on(`c`.`order_id` = `oi`.`order_id`)) left join `item` `i` on(`oi`.`item_id` = `i`.`item_id`))  ;
 
 -- --------------------------------------------------------
 
@@ -443,7 +501,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 DROP TABLE IF EXISTS `review_and_comment_view`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `review_and_comment_view`  AS SELECT `r`.`item_id` AS `item_id`, `r`.`customer_id` AS `customer_id`, `ec`.`employee_id` AS `employee_id`, `r`.`review` AS `review`, `r`.`rating` AS `rating`, `r`.`datetime` AS `review_date`, `ec`.`comment` AS `comment`, `ec`.`datetime` AS `comment_date` FROM (`review` `r` left join `employeecomment` `ec` on(`r`.`item_id` = `ec`.`item_id` and `r`.`customer_id` = `ec`.`customer_id`)) ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `review_and_comment_view`  AS SELECT `r`.`item_id` AS `item_id`, `r`.`customer_id` AS `customer_id`, `ec`.`employee_id` AS `employee_id`, `r`.`review` AS `review`, `r`.`rating` AS `rating`, `r`.`datetime` AS `review_date`, `ec`.`comment` AS `comment`, `ec`.`datetime` AS `comment_date` FROM (`review` `r` left join `employeecomment` `ec` on(`r`.`item_id` = `ec`.`item_id` and `r`.`customer_id` = `ec`.`customer_id`))  ;
 
 -- --------------------------------------------------------
 
@@ -452,7 +510,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 DROP TABLE IF EXISTS `user_item_view`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `user_item_view`  AS SELECT DISTINCT `oiv`.`customer_id` AS `customer_id`, `oiv`.`item_id` AS `item_id`, `oiv`.`item_name` AS `item_name` FROM `order_item_view` AS `oiv` ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `user_item_view`  AS SELECT DISTINCT `oiv`.`customer_id` AS `customer_id`, `oiv`.`item_id` AS `item_id`, `oiv`.`item_name` AS `item_name` FROM `order_item_view` AS `oiv``oiv`  ;
 
 --
 -- Indexes for dumped tables
@@ -570,7 +628,7 @@ ALTER TABLE `checkout`
 -- AUTO_INCREMENT for table `customer`
 --
 ALTER TABLE `customer`
-  MODIFY `customer_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `customer_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 
 --
 -- AUTO_INCREMENT for table `ingredient`
@@ -588,13 +646,13 @@ ALTER TABLE `item`
 -- AUTO_INCREMENT for table `payment`
 --
 ALTER TABLE `payment`
-  MODIFY `payment_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `payment_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `user_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `user_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 
 --
 -- Constraints for dumped tables
@@ -605,8 +663,8 @@ ALTER TABLE `user`
 --
 ALTER TABLE `checkout`
   ADD CONSTRAINT `checkout_ibfk_1` FOREIGN KEY (`customer_id`) REFERENCES `customer` (`customer_id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `checkout_ibfk_2` FOREIGN KEY (`employee_id`) REFERENCES `employee` (`employee_id`),
-  ADD CONSTRAINT `checkout_ibfk_3` FOREIGN KEY (`payment_id`) REFERENCES `payment` (`payment_id`);
+  ADD CONSTRAINT `checkout_ibfk_2` FOREIGN KEY (`employee_id`) REFERENCES `employee` (`employee_id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `checkout_ibfk_3` FOREIGN KEY (`payment_id`) REFERENCES `payment` (`payment_id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `customer`

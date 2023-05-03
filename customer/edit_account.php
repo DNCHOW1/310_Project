@@ -1,3 +1,12 @@
+<!-- 
+    This file displays a page so that the user can edit their account. It utilizes a select statement to autopopulate the fields on the page.
+    Whenever the user edits an item on the page and hits "Save Changes", it will call "update_info.php" to update in the database.
+    This page also provides buttons to go to the "Payment Options" page where customers can see all their payment options,
+    as well as a "Delete Account" button which calls "delete_acc.php" and will remove all of the user related data from the database.
+
+    This file was done by Dien Chau.
+ -->
+
 <!DOCTYPE html>
 <html>
     <body>
@@ -5,11 +14,12 @@
             // Get the customer ID from cookie
             $customerId = json_decode($_COOKIE["currentUser"], true);
             
+            // connect to the database
             require_once("../connect_db.php");
             $conn = connect_mysql();
 
             // Query the user,customer table for the customer's info
-            $sql = "SELECT * FROM Customer LEFT JOIN User ON Customer.customer_id = User.user_id WHERE Customer.customer_id = " . $customerId;
+            $sql = "SELECT * FROM customer_view WHERE customer_id = " . $customerId;
             $result = mysqli_query($conn, $sql);
 
             // Check for results

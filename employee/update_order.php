@@ -1,4 +1,13 @@
 <?php
+
+        /*
+                This code handles the logic for updating an order for an employee. This functionality makes it so that an employee can "serve"
+                an order, which will update the status of an order as well as update the time_fufilled column in the database.
+
+                This code was written by Dien Chau.
+        */
+        
+        // Read in form data
         $orderId = $_POST['order_id'];
         $employeeId = json_decode($_COOKIE["currentUser"], true);
 

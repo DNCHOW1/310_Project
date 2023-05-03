@@ -1,3 +1,9 @@
+<!-- 
+This is just the result page after a registration is successful and when the user is added to the database successfully.
+
+This page was worked on by Dien Chau + Arjun Grover (dropped)
+ -->
+
 <!DOCTYPE html>
 <html>
 <head>

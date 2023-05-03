@@ -1,19 +1,35 @@
 <?php
-// Get form data
+
+/*
+    This file page occurs when customer or employee finishes registering. The information is gathered from their post request and used
+    to INSERT the corresponding data in the respective table, using TWO distinct insert commands.
+
+    One insert will be needed to insert part of the information within the User table. This data is similar for customer and employee.
+
+    Another insert will either be done to Customer table or the Employee table. This is because the users are different so they necessitate
+    different insertions. 
+
+    BOTH INSERTIONS FOR CUSTOMER USERTYPE AND EMPLOYEE USERTYPE WERE DONE BY DIEN CHAU
+
+    This file was worked on by Dien Chau + Arjun Grover (dropped)
+*/
+
+// Get form data (Dien Chau + Arjun Grover)
 $username = $_POST["username"];
 $password = $_POST["password"];
 $first_name = $_POST["first_name"];
 $last_name = $_POST["last_name"];
 $email = $_POST["email"];
-if(isset($_POST["phone"])){
+if(isset($_POST["phone"])){ // If this is set, we are sure that we came from the customer's register page (Dien Chau)
     $phone = $_POST["phone"];
     $street = $_POST["street"];
     $city = $_POST["city"];
     $zip = $_POST["zip"];
-} else{
+} else{ // else we know that we came from employee's register page (Dien Chau)
     $isAdmin = $_POST["employee_type"];
 }
 
+// Connect to the database
 require_once("../connect_db.php");
 $conn = connect_mysql();
 
@@ -21,11 +37,12 @@ $conn = connect_mysql();
 try{
     mysqli_begin_transaction($conn);
 
-    // Insert new user into User table
+    // Insert new user into User table (Dien Chau)
     $sql_user = "INSERT INTO User (username, password, first_name, last_name, email, user_type)
             VALUES ('$username', '$password', '$first_name', '$last_name', '$email', '0')";
     mysqli_query($conn, $sql_user);
 
+    // Insert the information into either the Customer table or the Employee table (Dien Chau)
     $last_id = mysqli_insert_id($conn);
     if( isset($_POST["phone"]) ){
         // Insert new customer into Customer table using last inserted id

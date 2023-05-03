@@ -1,3 +1,10 @@
+<!-- 
+This file is just a different login page for the customer. It uses all the attributes for the User table so it looks similar to "employee_register.php",
+but it also includes extra fields for attributes in Customer that employee wouldn't have.
+
+This file was done by Dien Chau + Arjun Grover.
+ -->
+
 <div id="register">
     <h2>User Creation</h2>
     <form method="post" action="create_user.php">

@@ -13,12 +13,6 @@
 		require_once("../connect_db.php");
 		$conn = connect_mysql();
 		
-		// TODO:
-		// Functionality to delete some menu item
-		//	 Remember to delete the menu item from the linking table "ItemIngredient" as well
-		// Functionality to edit a menu item
-		//	 This'll be somewhat tricky, because there's ingredients associated to each menu item
-
 		echo
 		"<form method=\"post\" action=\"delete_item.php\">
 			<label for=\"itemname\">Item Name To Delete:</label>

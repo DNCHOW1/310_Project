@@ -1,3 +1,11 @@
+<!-- 
+    This code is just a copy of the edit_account for the Customer end, but with some options omitted and some attributes omitted.
+
+    A view is used for this one for the employee_view.
+
+    This code was written by Dien Chau.
+ -->
+
 <!DOCTYPE html>
 <html>
     <body>
@@ -9,7 +17,7 @@
             $conn = connect_mysql();
 
             // Query the user,employee table for the employee's info
-            $sql = "SELECT * FROM Employee LEFT JOIN User ON Employee.employee_id = User.user_id WHERE Employee.employee_id = " . $employeeId;
+            $sql = "SELECT * FROM employee_view WHERE employee_id = " . $employeeId;
             $result = mysqli_query($conn, $sql);
 
             // Check for results

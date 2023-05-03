@@ -1,3 +1,10 @@
+<!-- 
+This file is just a different login page for the employee. It uses all the attributes for the User table so it looks similar to "register.php",
+but it also included a dropdown for whether the employee should be an admin or not.
+
+This file was done by Dien Chau
+ -->
+
 <div id="register">
     <h2>User Creation</h2>
     <form method="post" action="create_user.php">
