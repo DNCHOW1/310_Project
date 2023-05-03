@@ -16,15 +16,19 @@
         require_once("../connect_db.php"); // importing function
         $conn = connect_mysql();
 
-        $reviewSql = "SELECT * FROM `review` WHERE item_id = '$itemId'";
+        $reviewSql = "SELECT * FROM `review_and_comment_view` WHERE item_id = '$itemId'";
         $reviewResult = mysqli_query($conn, $reviewSql);
 
         // Display all the review items. 
         while ($reviewRow = mysqli_fetch_assoc($reviewResult)) {
-                echo "<p>Customer ID: " . $reviewRow['customer_id'] . "</p>";
                 echo "<p>Review Content: " . $reviewRow['review'] . "</p>";
                 echo "<p>Review Rating: " . $reviewRow['rating'] . "</p>";
-                echo "<p>Time Reviewed: " . $reviewRow['datetime'] . "</p>";
+                echo "<p>Time Reviewed: " . $reviewRow['review_date'] . "</p>";
+                if ($reviewRow['employee_id'] != NULL){
+                        echo "<p>Employee ID: " . $reviewRow['employee_id'] . "</p>";
+                        echo "<p>Comment: " . $reviewRow['comment'] . "</p>";
+                        echo "<p>Comment Date " . $reviewRow['comment_date'] . "</p>";
+                }
         }
         // Close connection
         mysqli_close($conn);
