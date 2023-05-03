@@ -7,7 +7,12 @@
 	<h1>Cart</h1>
 	
 	<?php
-	
+		// Author: Syed Asad
+		// Functionality: Gets items from the database using an SQL Query and displays the items that
+		// the user selected from the menu items. The user can select from the menu and update the cart
+		// with any item. The user can then remove items from the cart as they
+		// wish and also checkout the cart when the user is done ordering their desired items.
+
 		// Get the cart items from local storage
 		if(isset($_COOKIE["cartItems"])){
 			$cartItems = json_decode($_COOKIE["cartItems"], true);

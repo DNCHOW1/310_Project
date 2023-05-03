@@ -1,4 +1,9 @@
 <?php
+// Author: Syed Asad
+// Functionality: This file is the script to remove an ingredient from an item
+// to the backend of the database using a post request. The
+// php code puts an sql query to remove all rows in the association table with
+// matching ids from each of the ingredient and menu item tables.
 // Get form data
 $itemname = $_POST["itemname"];
 $ingredientname = $_POST["ingredientname"];

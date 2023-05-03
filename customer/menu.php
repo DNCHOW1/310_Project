@@ -11,6 +11,12 @@
 	<form id="menuForm">
 	
 	<?php
+		// Author: Syed Asad
+		// Functionality: Displays each menu item after getting them from the database. Then it
+		// displays the associated ingredients that each menu item has by calling a select from
+		// The association table. With this, the ingredients will update the bulleted list
+		// under the menu item so that the user can see what ingredients each menu item has.
+		
 		require_once("../connect_db.php");
 		$conn = connect_mysql();
 

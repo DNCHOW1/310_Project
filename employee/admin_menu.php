@@ -6,9 +6,15 @@
 <body>
 	<h1>Menu</h1>
 	<a href="employee_home.php">Home</a>
+
 	
 	
 	<?php
+	// Author: Syed Asad
+		// Functionality: This file is the frontend for the admin side for editing
+		// menu items. Each section of PHP below puts text fields and buttons to submit
+		// Each type of edit they want. There are buttons for deleting, editing, adding,
+		// and associating menu items with ingredients.
 		// Import and use function
 		require_once("../connect_db.php");
 		$conn = connect_mysql();

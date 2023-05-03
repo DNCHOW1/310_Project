@@ -1,4 +1,8 @@
 <?php
+// Author: Syed Asad
+// Functionality: This file is the script to delete a menu item
+// to the backend of the database using a post request. The
+// php code puts an sql query to delete the desired item with the name.
 // Get form data
 $itemname = $_POST["itemname"];
 
