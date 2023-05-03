@@ -44,7 +44,6 @@
         mysqli_close($conn);
     }
 
-    mysqli_close($conn);
     ?>
     <form method="post">
         <label for="comment">Comment:</label><br>
