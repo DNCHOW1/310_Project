@@ -19,6 +19,18 @@
 <body>
     <h1>All Reviews</h1>
     <a href="employee_home.php">Home</a>
+    <form method="post">
+        <label for="rating_filter">Filter by Rating:</label>
+        <select id="rating_filter" name="rating_filter">
+            <option value="all" selected>All Ratings</option>
+            <option value="1">1 Star</option>
+            <option value="2">2 Stars</option>
+            <option value="3">3 Stars</option>
+            <option value="4">4 Stars</option>
+            <option value="5">5 Stars</option>
+        </select>
+        <button type="submit">Apply Filter</button>
+    </form>
     <table>
         <tr>
             <th>Item Name</th>
@@ -31,13 +43,18 @@
         <?php
         require_once("../connect_db.php");
         $conn = connect_mysql();
-        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['customer_id']) ) {
             $customer_id = $_POST['customer_id'];
             $review_id = $_POST['review_id'];
             $sql = "DELETE FROM Review WHERE Review.item_id= '$review_id' AND Review.customer_id = '$customer_id'";
             mysqli_query($conn, $sql);
         }
-        $sql = "SELECT r.item_id, r.customer_id, r.employee_id, review_date, comment, comment_date, item_name, review, rating FROM `review_and_comment_view` r JOIN Item i ON r.item_id = i.item_id";
+        $rating_filter = isset($_POST['rating_filter']) ? $_POST['rating_filter'] : 'all';
+        if ($rating_filter == 'all') {
+            $sql = "SELECT r.item_id, r.customer_id, r.employee_id, review_date, comment, comment_date, item_name, review, rating FROM `review_and_comment_view` r JOIN Item i ON r.item_id = i.item_id";
+        } else {
+            $sql = "SELECT r.item_id, r.customer_id, r.employee_id, review_date, comment, comment_date, item_name, review, rating FROM `review_and_comment_view` r JOIN Item i ON r.item_id = i.item_id WHERE r.rating = $rating_filter";
+        }
         $result = mysqli_query($conn, $sql);
         while ($row = mysqli_fetch_assoc($result)) {
             echo "<tr>";
