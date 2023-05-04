@@ -32,8 +32,9 @@
         require_once("../connect_db.php");
         $conn = connect_mysql();
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            $customer_id = $_POST['customer_id'];
             $review_id = $_POST['review_id'];
-            $sql = "DELETE FROM Review WHERE Review.item_id= '$review_id'";
+            $sql = "DELETE FROM Review WHERE Review.item_id= '$review_id' AND Review.customer_id = '$customer_id'";
             mysqli_query($conn, $sql);
         }
         $sql = "SELECT r.item_id, r.customer_id, r.employee_id, review_date, comment, comment_date, item_name, review, rating FROM `review_and_comment_view` r JOIN Item i ON r.item_id = i.item_id";
@@ -50,6 +51,7 @@
             echo "<td>
                     <form method='post'>
                         <input type='hidden' name='review_id' value='".$row['item_id']."'>
+                        <input type='hidden' name='customer_id' value='".$row['customer_id']."'>
                         <button type='submit'>Delete</button>
                     </form>
                   </td>";

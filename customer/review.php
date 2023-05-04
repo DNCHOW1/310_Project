@@ -29,6 +29,7 @@
                         echo "<p>Comment: " . $reviewRow['comment'] . "</p>";
                         echo "<p>Comment Date " . $reviewRow['comment_date'] . "</p>";
                 }
+                echo "<br>";
         }
         // Close connection
         mysqli_close($conn);

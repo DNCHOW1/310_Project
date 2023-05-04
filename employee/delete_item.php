@@ -29,9 +29,6 @@ try{
             mysqli_query($conn, $sql_remove_item);
         }
 
-        // Delete item from menu list
-        $sql_remove_item = "DELETE FROM Item WHERE item_name = '$itemname'";
-        mysqli_query($conn, $sql_remove_item);
     }
 
     mysqli_commit($conn);
@@ -42,7 +39,6 @@ catch (\Throwable $e) {
     // An exception thrown, rollback...
     $conn->rollback();
 
-    // catch error on distinct username/email: TODO
     echo $e->getCode();
     if (mysqli_errno($e) == 1062) {
         print 'no way!';

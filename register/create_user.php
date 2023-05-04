@@ -25,8 +25,10 @@ if(isset($_POST["phone"])){ // If this is set, we are sure that we came from the
     $street = $_POST["street"];
     $city = $_POST["city"];
     $zip = $_POST["zip"];
+    $user_type = 0;
 } else{ // else we know that we came from employee's register page (Dien Chau)
     $isAdmin = $_POST["employee_type"];
+    $user_type = 1;
 }
 
 // Connect to the database
@@ -39,7 +41,7 @@ try{
 
     // Insert new user into User table (Dien Chau)
     $sql_user = "INSERT INTO User (username, password, first_name, last_name, email, user_type)
-            VALUES ('$username', '$password', '$first_name', '$last_name', '$email', '0')";
+            VALUES ('$username', '$password', '$first_name', '$last_name', '$email', '$user_type')";
     mysqli_query($conn, $sql_user);
 
     // Insert the information into either the Customer table or the Employee table (Dien Chau)

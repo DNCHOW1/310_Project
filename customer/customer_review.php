@@ -22,11 +22,17 @@
             require_once("../connect_db.php"); // importing function
             $conn = connect_mysql();
 
-            $reviewSql = "SELECT * FROM `review_and_comment_view` WHERE customer_id = '$customerId'";
+            $reviewSql = "SELECT
+                                        i.item_name, r.review, r.rating, r.review_date, r.employee_id, r.comment, r.comment_date
+                                   FROM `review_and_comment_view` r 
+                                   LEFT JOIN Item i 
+                                        ON r.item_id = i.item_id 
+                                   WHERE customer_id = '$customerId'";
             $reviewResult = mysqli_query($conn, $reviewSql);
 
             // Display all the review items. 
             while ($reviewRow = mysqli_fetch_assoc($reviewResult)) {
+                    echo "<p>Review Item: " . $reviewRow['item_name'] . "</p>";
                     echo "<p>Review Content: " . $reviewRow['review'] . "</p>";
                     echo "<p>Review Rating: " . $reviewRow['rating'] . "</p>";
                     echo "<p>Time Reviewed: " . $reviewRow['review_date'] . "</p>";
@@ -35,6 +41,7 @@
                         echo "<p>Comment: " . $reviewRow['comment'] . "</p>";
                         echo "<p>Comment Date " . $reviewRow['comment_date'] . "</p>";
                     }
+                    echo "<br>";
             }
             // Close connection
             mysqli_close($conn);
