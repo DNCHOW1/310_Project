@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 03, 2023 at 09:09 AM
+-- Generation Time: May 04, 2023 at 06:28 AM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.2.0
 
@@ -54,7 +54,9 @@ INSERT INTO `checkout` (`order_id`, `customer_id`, `employee_id`, `payment_id`, 
 (14, 13, NULL, 1, 0, '2023-04-10 18:23:46', NULL, 'delivery', 15.38),
 (15, 13, NULL, 1, 0, '2023-04-10 18:27:27', NULL, 'pickup', 7.69),
 (20, 13, 24, 3, 1, '2023-04-17 14:13:25', '2023-04-17 14:13:53', 'delivery', 75.9),
-(26, 23, NULL, 8, 0, '2023-05-02 19:43:49', '2023-05-02 19:43:49', 'pickup', 30.67);
+(26, 23, NULL, 8, 0, '2023-05-02 19:43:49', '2023-05-02 19:43:49', 'pickup', 30.67),
+(27, 13, NULL, 3, 0, '2023-05-03 02:22:59', '2023-05-03 02:22:59', 'pickup', 23.18),
+(36, 13, NULL, 9, 0, '2023-05-03 21:17:42', '2023-05-03 21:17:42', 'pickup', 60.49);
 
 -- --------------------------------------------------------
 
@@ -160,14 +162,6 @@ CREATE TABLE `employeecomment` (
   `datetime` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `employeecomment`
---
-
-INSERT INTO `employeecomment` (`customer_id`, `item_id`, `employee_id`, `comment`, `datetime`) VALUES
-(13, 1, 25, 'acc we hope we can recreate this experience for you', '2023-05-03 00:15:33'),
-(13, 2, 25, 'glad to hear', '2023-05-03 00:18:50');
-
 -- --------------------------------------------------------
 
 --
@@ -206,8 +200,11 @@ INSERT INTO `ingredient` (`ingredient_id`, `ingredient_name`) VALUES
 (2, 'Cheese'),
 (4, 'Sausage'),
 (5, 'Dough'),
-(6, '123'),
-(7, 'Cherryman');
+(8, 'Pineapple'),
+(9, 'Bacon'),
+(11, 'Spinach'),
+(12, 'Mushroom'),
+(13, 'Chicken');
 
 -- --------------------------------------------------------
 
@@ -229,7 +226,11 @@ CREATE TABLE `item` (
 INSERT INTO `item` (`item_id`, `item_name`, `price`, `description`) VALUES
 (1, 'Pepperoni Pizza', 7.69, 'Pizza with pepperoni pizza and cheese. Nutritious and healthy.'),
 (2, 'Cheese Pizza', 7.49, 'Pizza with cheese.'),
-(4, 'Sausage and Pepperoni Pizza', 15.49, 'This pizza has sausage AND pepperoni!');
+(4, 'Sausage and Pepperoni Pizza', 15.49, 'This pizza has sausage AND pepperoni!'),
+(6, 'Pineapple Pizza', 4.39, 'This pizza has pineapple, yucky!'),
+(7, 'Bacon Pizza', 6.92, 'This pizza has bacon made from hog rider (the person).'),
+(8, 'Veggie Pizza', 18.51, 'This pizza has vegetarian ingredients.'),
+(16, 'Dough Pizza', 1.29, 'Dough...');
 
 -- --------------------------------------------------------
 
@@ -250,10 +251,23 @@ CREATE TABLE `itemingredient` (
 INSERT INTO `itemingredient` (`item_id`, `ingredient_id`, `amount`) VALUES
 (1, 1, 1),
 (1, 2, 1),
+(1, 5, 1),
 (2, 2, 1),
 (4, 1, 1),
+(4, 2, 1),
 (4, 4, 1),
-(4, 5, 1);
+(4, 5, 1),
+(6, 2, 1),
+(6, 5, 1),
+(6, 8, 1),
+(7, 2, 1),
+(7, 5, 1),
+(7, 9, 1),
+(8, 2, 1),
+(8, 5, 1),
+(8, 11, 1),
+(8, 12, 1),
+(16, 5, 1);
 
 -- --------------------------------------------------------
 
@@ -302,7 +316,15 @@ INSERT INTO `orderitem` (`order_id`, `item_id`, `amount`) VALUES
 (20, 2, 5),
 (26, 1, 1),
 (26, 2, 1),
-(26, 4, 1);
+(26, 4, 1),
+(27, 1, 1),
+(27, 4, 1),
+(36, 1, 1),
+(36, 2, 1),
+(36, 4, 1),
+(36, 6, 1),
+(36, 7, 1),
+(36, 8, 1);
 
 -- --------------------------------------------------------
 
@@ -374,9 +396,10 @@ CREATE TABLE `review` (
 --
 
 INSERT INTO `review` (`customer_id`, `item_id`, `review`, `rating`, `datetime`) VALUES
-(13, 2, '\"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.\"\r\n', 1, '2023-05-02 19:42:14'),
-(23, 2, 'great pizza! best one yet', 5, '2023-05-02 19:44:12'),
-(23, 4, 'not my favorite pizza', 3, '2023-05-02 19:44:03');
+(13, 1, 'pepperoni is decent', 3, '2023-05-03 15:05:31'),
+(13, 2, 'I like how much cheese there is', 5, '2023-05-03 15:05:39'),
+(13, 6, 'I LOVE PINEAPPLE!', 4, '2023-05-03 21:23:37'),
+(13, 7, 'Bacon tastes bad but pizza is good...', 2, '2023-05-03 21:23:52');
 
 -- --------------------------------------------------------
 
@@ -415,7 +438,9 @@ INSERT INTO `takeout` (`order_id`, `pickupTime`) VALUES
 (10, '2023-04-10 11:47:00'),
 (13, '2023-04-11 06:10:00'),
 (15, '2023-04-11 18:31:00'),
-(26, '2023-05-03 17:10:00');
+(26, '2023-05-03 17:10:00'),
+(27, '2023-05-03 02:25:00'),
+(36, '2023-05-04 21:20:00');
 
 -- --------------------------------------------------------
 
@@ -612,7 +637,7 @@ ALTER TABLE `user`
   ADD PRIMARY KEY (`user_id`),
   ADD UNIQUE KEY `user_id` (`user_id`),
   ADD UNIQUE KEY `username` (`username`,`email`),
-  ADD UNIQUE KEY `username_2` (`username`);
+  ADD KEY `username_2` (`username`) USING BTREE;
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -622,37 +647,37 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `checkout`
 --
 ALTER TABLE `checkout`
-  MODIFY `order_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `order_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
 
 --
 -- AUTO_INCREMENT for table `customer`
 --
 ALTER TABLE `customer`
-  MODIFY `customer_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
+  MODIFY `customer_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
 
 --
 -- AUTO_INCREMENT for table `ingredient`
 --
 ALTER TABLE `ingredient`
-  MODIFY `ingredient_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `ingredient_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `item`
 --
 ALTER TABLE `item`
-  MODIFY `item_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `item_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `payment`
 --
 ALTER TABLE `payment`
-  MODIFY `payment_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `payment_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `user_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
+  MODIFY `user_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=54;
 
 --
 -- Constraints for dumped tables
@@ -663,7 +688,6 @@ ALTER TABLE `user`
 --
 ALTER TABLE `checkout`
   ADD CONSTRAINT `checkout_ibfk_1` FOREIGN KEY (`customer_id`) REFERENCES `customer` (`customer_id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `checkout_ibfk_2` FOREIGN KEY (`employee_id`) REFERENCES `employee` (`employee_id`) ON DELETE CASCADE,
   ADD CONSTRAINT `checkout_ibfk_3` FOREIGN KEY (`payment_id`) REFERENCES `payment` (`payment_id`) ON DELETE CASCADE;
 
 --
@@ -682,15 +706,14 @@ ALTER TABLE `delivery`
 -- Constraints for table `employee`
 --
 ALTER TABLE `employee`
-  ADD CONSTRAINT `employee_ibfk_1` FOREIGN KEY (`employee_id`) REFERENCES `user` (`user_id`);
+  ADD CONSTRAINT `employee_ibfk_1` FOREIGN KEY (`employee_id`) REFERENCES `user` (`user_id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `employeecomment`
 --
 ALTER TABLE `employeecomment`
-  ADD CONSTRAINT `employeecomment_ibfk_1` FOREIGN KEY (`customer_id`) REFERENCES `customer` (`customer_id`) ON DELETE CASCADE,
   ADD CONSTRAINT `employeecomment_ibfk_2` FOREIGN KEY (`employee_id`) REFERENCES `employee` (`employee_id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `employeecomment_ibfk_3` FOREIGN KEY (`item_id`) REFERENCES `item` (`item_id`) ON DELETE CASCADE;
+  ADD CONSTRAINT `reviewpk_ibfk_1` FOREIGN KEY (`customer_id`,`item_id`) REFERENCES `review` (`customer_id`, `item_id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `itemingredient`
@@ -704,7 +727,7 @@ ALTER TABLE `itemingredient`
 --
 ALTER TABLE `orderitem`
   ADD CONSTRAINT `orderitem_ibfk_1` FOREIGN KEY (`order_id`) REFERENCES `checkout` (`order_id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `orderitem_ibfk_2` FOREIGN KEY (`item_id`) REFERENCES `item` (`item_id`);
+  ADD CONSTRAINT `orderitem_ibfk_2` FOREIGN KEY (`item_id`) REFERENCES `item` (`item_id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `payment`
