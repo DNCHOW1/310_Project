@@ -510,7 +510,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 DROP TABLE IF EXISTS `user_item_view`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `user_item_view`  AS SELECT DISTINCT `oiv`.`customer_id` AS `customer_id`, `oiv`.`item_id` AS `item_id`, `oiv`.`item_name` AS `item_name` FROM `order_item_view` AS `oiv``oiv`  ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `user_item_view`  AS SELECT DISTINCT `oiv`.`customer_id` AS `customer_id`, `oiv`.`item_id` AS `item_id`, `oiv`.`item_name` AS `item_name` FROM `order_item_view` AS `oiv`  ;
 
 --
 -- Indexes for dumped tables

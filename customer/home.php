@@ -65,7 +65,7 @@
         require_once('../connect_db.php');
 
         // Debugging
-        echo "<p> " . htmlentities(json_encode($_COOKIE)) . "><br>";
+        // echo "<p> " . htmlentities(json_encode($_COOKIE)) . "><br>";
 
         $customerId = json_decode($_COOKIE["currentUser"], true);
 		
