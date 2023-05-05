@@ -3,7 +3,7 @@ This code is the checkout screen after a user has continued on from finalizing t
 be able to select a pre-existing payment option or create a new one. Additionally, they'll be able to choose the type of order they want, 
 a delivery or takeout, as well as fill in the related attributes to that type. The results of this page will be forwarded to "process_order.php"
 
-This code was done by Dien Chau and Arjun Grover (dropped).
+This code was done by Dien Chau, Syed Asad, and Arjun Grover (dropped).
  -->
 
 <!DOCTYPE html>
@@ -17,7 +17,7 @@ This code was done by Dien Chau and Arjun Grover (dropped).
 	<?php
 		$finalPaymentId = -1;
 
-		// Add radio button for each payment (Dien)
+		// Add radio button for each payment (Dien Chau + Syed Asad)
 		function createRadioButton($paymentId, $name, $cc_number, $cc_expiration, $cc_security_code, $label, $checked=FALSE){ 
 			$paymentInfo = array(
 				"payment_id" => $paymentId,
@@ -41,7 +41,7 @@ This code was done by Dien Chau and Arjun Grover (dropped).
 		require_once("../connect_db.php");
 		$conn = connect_mysql();
 		
-		// Query the "payment" table for the customer's payment info (Dien)
+		// Query the "payment" table for the customer's payment info (Syed Asad + Dien Chau)
 		$sql = "SELECT * FROM payment WHERE customer_id = $customerId";
 		$result = mysqli_query($conn, $sql);
 		
@@ -51,7 +51,7 @@ This code was done by Dien Chau and Arjun Grover (dropped).
 		if (mysqli_num_rows($result) > 0) {
 			$index = 0;
 
-			// Display the payment info and autofill the fields (Dien)
+			// Display the payment info and autofill the fields (Syed Asad + Dien Chau)
 			while ($row = mysqli_fetch_assoc($result)) {
 				$name = $row["name"];
 				$cc_number = $row["cc_number"];
@@ -95,7 +95,7 @@ This code was done by Dien Chau and Arjun Grover (dropped).
 		mysqli_close($conn);
 	?>
 	
-	<!-- Html below was joint effort by Dien and Arjun -->
+	<!-- Html below was joint effort by Dien and Arjun using code from Syed's payment_options page -->
 	<form method="post" action="process_order.php">
 	
 		<label for="name">Name:</label>
@@ -152,7 +152,7 @@ This code was done by Dien Chau and Arjun Grover (dropped).
 			window.location.href = "cart.php";
 		}
 		
-		// Upon selecting a dropdown, will show either pickup options or takeout options (Arjun)
+		// Upon selecting a dropdown, will show either pickup options or takeout options (Dien + Arjun)
 		function showFields() {
 			let orderType = document.getElementById("orderType").value;
 			let pickupFields = document.getElementById("pickupFields");
@@ -171,7 +171,7 @@ This code was done by Dien Chau and Arjun Grover (dropped).
 			}
 		}
 
-		// Radio buttons for the payment options. If a new radio button is clicked it will update the values to forward to next page (Dien)
+		// Radio buttons for the payment options. If a new radio button is clicked it will update the values to forward to next page (Dien + Syed)
 		var paymentRadioButtons = document.getElementsByName("payment_id");
 		for (var i = 0; i < paymentRadioButtons.length; i++) {
 			paymentRadioButtons[i].addEventListener("change", function() {

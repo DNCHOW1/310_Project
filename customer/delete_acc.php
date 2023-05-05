@@ -2,7 +2,8 @@
 
 /*
 This file is responsible for deleting a customer account. This is rather simple as we just need to delete from the User table, and then
-the change will cascade down to all the other tables that use this as a foreign key.
+the change will cascade down to all the other tables that use this as a foreign key. Thus, it will delete this account and all orders related to
+the account, payment information related to the account, and reviews related to this account.
 
 This file was done by Dien Chau.
 */

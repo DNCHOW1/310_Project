@@ -2,7 +2,8 @@
 
 /*
 This file is responsible for deleting a employee account. This is rather simple as we just need to delete from the User table, and then
-the change will cascade down to all the other tables that use this as a foreign key.
+the change will cascade down to all the other tables that use this as a foreign key. Thus, it would delete all the employee comments related
+to this account.
 
 This file was done by Dien Chau.
 */
