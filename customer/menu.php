@@ -1,5 +1,5 @@
 <!--
-		Author: Dien Chau, Syed Asad
+		Author: Syed Asad
 		Functionality: Displays each menu item after getting them from the database. Then it
 		displays the associated ingredients that each menu item has by calling a select from
 		The association table. With this, the ingredients will update the bulleted list

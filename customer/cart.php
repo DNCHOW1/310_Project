@@ -1,5 +1,5 @@
 <!--
-		Author: Dien Chau, Syed Asad
+		Author: Syed Asad
 		Functionality: Gets items from the database using an SQL Query and displays the items that
 		the user selected from the menu items. The user can select from the menu and update the cart
 		with any item. The user can then remove items from the cart as they
@@ -16,7 +16,7 @@
 	
 	<?php
 
-		// Get the cart items from local storage (Dien Chau)
+		// Get the cart items from local storage (Syed Asad)
 		if(isset($_COOKIE["cartItems"])){
 			$cartItems = json_decode($_COOKIE["cartItems"], true);
 		} else{
