@@ -1,5 +1,5 @@
 <!--
-		Author: Syed Asad
+		Author: Dien Chau, Syed Asad
 		Functionality: Gets items from the database using an SQL Query and displays the items that
 		the user selected from the menu items. The user can select from the menu and update the cart
 		with any item. The user can then remove items from the cart as they
@@ -16,7 +16,7 @@
 	
 	<?php
 
-		// Get the cart items from local storage
+		// Get the cart items from local storage (Dien Chau)
 		if(isset($_COOKIE["cartItems"])){
 			$cartItems = json_decode($_COOKIE["cartItems"], true);
 		} else{
@@ -26,13 +26,14 @@
 		require_once("../connect_db.php");
 		$conn = connect_mysql();
 
+		// Display the items that are in the cart
 		if (!empty($cartItems)) {
 			echo "<form method=\"post\" action=\"checkout.php\">";
 			echo "<ul>";
 			// Loop through the cart items and display them
 			foreach ($cartItems as $itemId) {
 				
-				// Query the "item" table for the current item
+				// Query the "item" table for the current item (Syed Asad)
 				$sql = "SELECT * FROM item WHERE item_id = " . $itemId;
 				$result = mysqli_query($conn, $sql);
 				
@@ -76,6 +77,7 @@
 			window.location.href = "menu.php";
 		}
 
+		// Helper function for setting cookies, that way we can persist data locally (Dien Chau)
 		function setCookie(name,value,exp_days) {
             var d = new Date();
             d.setTime(d.getTime() + (exp_days*24*60*60*1000));
@@ -83,6 +85,7 @@
             document.cookie = name + "=" + value + ";" + expires + ";path=/";
         }
 
+		// Helper function to get local data, to be used to make functions easier (Dien Chau)
 		function getCookie(name) {
             var cname = name + "=";
             var decodedCookie = decodeURIComponent(document.cookie);
@@ -99,6 +102,7 @@
             return "";
         }
 		
+		// Remove an item from the cart, implemented locally (Dien Chau + Syed Asad)
 		function removeItem(itemId) {
 			// Remove the item from the cart
 			var cartItems = JSON.parse(getCookie("cartItems"));

@@ -1,5 +1,5 @@
 <!--
-		Author: Syed Asad
+		Author: Dien Chau, Syed Asad
 		Functionality: Displays each menu item after getting them from the database. Then it
 		displays the associated ingredients that each menu item has by calling a select from
 		The association table. With this, the ingredients will update the bulleted list
@@ -23,7 +23,7 @@
 		require_once("../connect_db.php");
 		$conn = connect_mysql();
 
-		// Query all the items from "item_ingredient_view" table
+		// Query all the items from "item_ingredient_view" table (Syed Asad)
 		$sql = "SELECT * FROM item_ingredient_view";
 		$result = mysqli_query($conn, $sql);
 		
@@ -43,7 +43,7 @@
 						$prevIngFlag = 0;
 					}
 
-					// Display a description of the menu item, this is a newly seen menu item
+					// Display a description of the menu item, this is a newly seen menu item (Syed Asad)
 					echo 
 					"<li>
 					<input type=\"checkbox\" name=\"item[]\" value=\"" . $row["item_name"] . "\" id=\"$itemId\"> 
@@ -52,7 +52,7 @@
 					$row["price"] .
 					"</li>";
 					
-					// Display a list of all the associated menu ingredients if they exist
+					// Display a list of all the associated menu ingredients if they exist (Syed Asad)
 					if($row["ingredient_id"] != NULL){
 						echo "<ul>";
 						echo "<li>" . $row["ingredient_name"] . "</li>";
@@ -84,6 +84,7 @@
 	</form>
 	
 	<script>
+		// Helper function for setting cookies, that way we can persist data locally (Dien Chau)
         function setCookie(name,value,exp_days) {
             var d = new Date();
             d.setTime(d.getTime() + (exp_days*24*60*60*1000));
@@ -91,6 +92,7 @@
             document.cookie = name + "=" + value + ";" + expires + ";path=/";
         }
 
+		// Helper function to get local data, to be used to make functions easier (Dien Chau)
         function getCookie(name) {
             var cname = name + "=";
             var decodedCookie = decodeURIComponent(document.cookie);
@@ -107,6 +109,7 @@
             return "";
         }
 
+		// Helper function to add to the cart, this local data can be used on other pages (Dien Chau + Syed Asad)
 		function addToCart() {
 			// Get the checked items from the form
 			const form = document.getElementById("menuForm");
