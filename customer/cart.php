@@ -77,7 +77,7 @@
 			window.location.href = "menu.php";
 		}
 
-		// Helper function for setting cookies, that way we can persist data locally (Dien Chau)
+		// Helper function for setting cookies, that way we can persist data locally (Syed Asad)
 		function setCookie(name,value,exp_days) {
             var d = new Date();
             d.setTime(d.getTime() + (exp_days*24*60*60*1000));
@@ -85,7 +85,7 @@
             document.cookie = name + "=" + value + ";" + expires + ";path=/";
         }
 
-		// Helper function to get local data, to be used to make functions easier (Dien Chau)
+		// Helper function to get local data, to be used to make functions easier (Syed Asad)
 		function getCookie(name) {
             var cname = name + "=";
             var decodedCookie = decodeURIComponent(document.cookie);
@@ -102,7 +102,7 @@
             return "";
         }
 		
-		// Remove an item from the cart, implemented locally (Dien Chau + Syed Asad)
+		// Remove an item from the cart, implemented locally (Syed Asad)
 		function removeItem(itemId) {
 			// Remove the item from the cart
 			var cartItems = JSON.parse(getCookie("cartItems"));
