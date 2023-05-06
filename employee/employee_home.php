@@ -5,7 +5,7 @@
 
     The main view on this page that displays the ongoing orders for all customers was done by Dien Chau.
 
-    This page was worked on by Dien Chau, Syed Asad, and Ekdev.
+    This page was worked on by Dien Chau, Syed Asad, and Ekdev Rajkitkul.
  -->
 
 <!DOCTYPE html>

@@ -1,3 +1,12 @@
+<!-- 
+    Author: Ekdev Rajkitkul
+    Functionality: The following file creates a master page for the admin/employee to view all customers reviews,
+    with each review yielding an action to delete their review (in case customer posts something inappropriate) or 
+    attach an employee comment to their review. The write_comment page is attached within the websites page to click on
+    to redirect admin/employees to write or update their comment. Utilized SELECT, DELETE, and review_and_comment views
+    to execute the functionality, interact with the db, and display as shown. Can also filter based on rating (index)
+ -->
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -40,21 +49,26 @@
             <th>Create Comment</th>
             <th>Delete Review</th>
         </tr>
+
         <?php
         require_once("../connect_db.php");
         $conn = connect_mysql();
+        // delete functionality
         if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['customer_id']) ) {
             $customer_id = $_POST['customer_id'];
             $review_id = $_POST['review_id'];
             $sql = "DELETE FROM Review WHERE Review.item_id= '$review_id' AND Review.customer_id = '$customer_id'";
             mysqli_query($conn, $sql);
         }
+        // rating filter via indices
         $rating_filter = isset($_POST['rating_filter']) ? $_POST['rating_filter'] : 'all';
         if ($rating_filter == 'all') {
             $sql = "SELECT r.item_id, r.customer_id, r.employee_id, review_date, comment, comment_date, item_name, review, rating FROM `review_and_comment_view` r JOIN Item i ON r.item_id = i.item_id";
         } else {
             $sql = "SELECT r.item_id, r.customer_id, r.employee_id, review_date, comment, comment_date, item_name, review, rating FROM `review_and_comment_view` r JOIN Item i ON r.item_id = i.item_id WHERE r.rating = $rating_filter";
         }
+
+        // display master table
         $result = mysqli_query($conn, $sql);
         while ($row = mysqli_fetch_assoc($result)) {
             echo "<tr>";

@@ -1,3 +1,9 @@
+<!-- 
+        Author: Ekdev Rajkitkul
+        Functionality: The following file displays all the reviews for a given item by all customers,
+        creates a page where every menu item is linked to.
+ -->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,17 +15,16 @@
 </html>
 
 <?php 
-        // How to get parameters from the query string
-        // https://www.w3docs.com/snippets/php/get-url-query-string-parameters.html#:~:text=To%20get%20the%20query%20string,of%20the%20query%20string%20parameters.&text=Note%20that%20if%20the%20parameter,if%20a%20parameter%20is%20set.
         $itemId = $_GET['item_id']; // get the itemId parameter from the query string
 
-        require_once("../connect_db.php"); // importing function
+        require_once("../connect_db.php");
         $conn = connect_mysql();
 
+        // view all reviews within databbase using query
         $reviewSql = "SELECT * FROM `review_and_comment_view` WHERE item_id = '$itemId'";
         $reviewResult = mysqli_query($conn, $reviewSql);
 
-        // Display all the review items. 
+        // display all the reviews and their attributes 
         while ($reviewRow = mysqli_fetch_assoc($reviewResult)) {
                 echo "<p>Review Content: " . $reviewRow['review'] . "</p>";
                 echo "<p>Review Rating: " . $reviewRow['rating'] . "</p>";
@@ -31,6 +36,5 @@
                 }
                 echo "<br>";
         }
-        // Close connection
         mysqli_close($conn);
 ?>

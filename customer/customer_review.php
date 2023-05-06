@@ -1,3 +1,11 @@
+<!-- 
+        Author: Ekdev Rajkitkul
+        Functionality: This page holds buttons to both the create and delete review page, and displays
+        all the reviews and associated attributes. Utilized SELECT command to access the customers
+        own reviews. Additionally, it can can display the employee comments associated with the review
+        underneath each review item
+ -->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,21 +15,19 @@
         <h1>Reviews</h1>
         <a href="home.php">Home</a>
         <br><br>
-        <!-- Button for Create Review page -->
+        <!-- button for Create Review page -->
         <form action="process_review.php" method="get">
                 <input type="submit" value="Create/Edit Review">
         </form>
+        <!-- button for Delete Review page -->
         <form action="delete_review.php" method="get">
                 <input type="submit" value="Delete Reviews">
         </form>
         <?php 
-            // How to get parameters from the query string
-            // https://www.w3docs.com/snippets/php/get-url-query-string-parameters.html#:~:text=To%20get%20the%20query%20string,of%20the%20query%20string%20parameters.&text=Note%20that%20if%20the%20parameter,if%20a%20parameter%20is%20set.
             $customerId = json_decode($_COOKIE["currentUser"], true);
-
-            require_once("../connect_db.php"); // importing function
+            require_once("../connect_db.php"); // connect
             $conn = connect_mysql();
-
+            // access customers own review
             $reviewSql = "SELECT
                                         i.item_name, r.review, r.rating, r.review_date, r.employee_id, r.comment, r.comment_date
                                    FROM `review_and_comment_view` r 
@@ -30,7 +36,7 @@
                                    WHERE customer_id = '$customerId'";
             $reviewResult = mysqli_query($conn, $reviewSql);
 
-            // Display all the review items. 
+            // display all the reviews and attributes
             while ($reviewRow = mysqli_fetch_assoc($reviewResult)) {
                     echo "<p>Review Item: " . $reviewRow['item_name'] . "</p>";
                     echo "<p>Review Content: " . $reviewRow['review'] . "</p>";
@@ -43,7 +49,6 @@
                     }
                     echo "<br>";
             }
-            // Close connection
             mysqli_close($conn);
         ?>
 </body>
