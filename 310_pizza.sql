@@ -25,6 +25,7 @@ SET time_zone = "+00:00";
 
 --
 -- Table structure for table `checkout`
+-- Dien Chau, Arjun Grover
 --
 
 CREATE TABLE `checkout` (
@@ -64,6 +65,7 @@ INSERT INTO `checkout` (`order_id`, `customer_id`, `employee_id`, `payment_id`, 
 
 --
 -- Table structure for table `customer`
+-- Dien Chau
 --
 
 CREATE TABLE `customer` (
@@ -90,6 +92,7 @@ INSERT INTO `customer` (`customer_id`, `phone`, `street`, `city`, `zip_code`) VA
 --
 -- Stand-in structure for view `customer_view`
 -- (See below for the actual view)
+-- Dien Chau
 --
 CREATE TABLE `customer_view` (
 `customer_id` bigint(20) unsigned
@@ -110,6 +113,7 @@ CREATE TABLE `customer_view` (
 
 --
 -- Table structure for table `delivery`
+-- Dien Chau, Arjun Grover
 --
 
 CREATE TABLE `delivery` (
@@ -136,6 +140,7 @@ INSERT INTO `delivery` (`order_id`, `address`, `city`, `zip_code`) VALUES
 
 --
 -- Table structure for table `employee`
+-- Dien Chau
 --
 
 CREATE TABLE `employee` (
@@ -179,6 +184,7 @@ INSERT INTO `employeecomment` (`customer_id`, `item_id`, `employee_id`, `comment
 --
 -- Stand-in structure for view `employee_view`
 -- (See below for the actual view)
+-- Dien Chau
 --
 CREATE TABLE `employee_view` (
 `employee_id` bigint(20) unsigned
@@ -196,6 +202,7 @@ CREATE TABLE `employee_view` (
 
 --
 -- Table structure for table `ingredient`
+-- Syed Asad
 --
 
 CREATE TABLE `ingredient` (
@@ -222,6 +229,7 @@ INSERT INTO `ingredient` (`ingredient_id`, `ingredient_name`) VALUES
 
 --
 -- Table structure for table `item`
+-- Syed Asad
 --
 
 CREATE TABLE `item` (
@@ -248,6 +256,7 @@ INSERT INTO `item` (`item_id`, `item_name`, `price`, `description`) VALUES
 
 --
 -- Table structure for table `itemingredient`
+-- Syed Asad
 --
 
 CREATE TABLE `itemingredient` (
@@ -286,6 +295,7 @@ INSERT INTO `itemingredient` (`item_id`, `ingredient_id`, `amount`) VALUES
 --
 -- Stand-in structure for view `item_ingredient_view`
 -- (See below for the actual view)
+-- Syed Asad
 --
 CREATE TABLE `item_ingredient_view` (
 `item_id` bigint(20) unsigned
@@ -300,6 +310,7 @@ CREATE TABLE `item_ingredient_view` (
 
 --
 -- Table structure for table `orderitem`
+-- Dien Chau, Syed Asad
 --
 
 CREATE TABLE `orderitem` (
@@ -352,6 +363,7 @@ INSERT INTO `orderitem` (`order_id`, `item_id`, `amount`) VALUES
 --
 -- Stand-in structure for view `order_item_view`
 -- (See below for the actual view)
+-- Dien Chau
 --
 CREATE TABLE `order_item_view` (
 `order_id` bigint(20) unsigned
@@ -376,6 +388,7 @@ CREATE TABLE `order_item_view` (
 
 --
 -- Table structure for table `payment`
+-- Syed Asad
 --
 
 CREATE TABLE `payment` (
@@ -445,6 +458,7 @@ CREATE TABLE `review_and_comment_view` (
 
 --
 -- Table structure for table `takeout`
+-- Dien Chau, Arjun Grover
 --
 
 CREATE TABLE `takeout` (
@@ -470,6 +484,7 @@ INSERT INTO `takeout` (`order_id`, `pickupTime`) VALUES
 
 --
 -- Table structure for table `user`
+-- Dien Chau
 --
 
 CREATE TABLE `user` (
@@ -512,6 +527,7 @@ CREATE TABLE `user_item_view` (
 
 --
 -- Structure for view `customer_view`
+-- Dien Chau
 --
 DROP TABLE IF EXISTS `customer_view`;
 
@@ -521,6 +537,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 
 --
 -- Structure for view `employee_view`
+-- Dien Chau
 --
 DROP TABLE IF EXISTS `employee_view`;
 
@@ -530,6 +547,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 
 --
 -- Structure for view `item_ingredient_view`
+-- Syed Asad
 --
 DROP TABLE IF EXISTS `item_ingredient_view`;
 
@@ -539,6 +557,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 
 --
 -- Structure for view `order_item_view`
+-- Dien Chau
 --
 DROP TABLE IF EXISTS `order_item_view`;
 
@@ -568,6 +587,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 
 --
 -- Indexes for table `checkout`
+-- Dien Chau
 --
 ALTER TABLE `checkout`
   ADD PRIMARY KEY (`order_id`),
@@ -579,6 +599,7 @@ ALTER TABLE `checkout`
 
 --
 -- Indexes for table `customer`
+-- Dien Chau
 --
 ALTER TABLE `customer`
   ADD PRIMARY KEY (`customer_id`),
@@ -613,6 +634,7 @@ ALTER TABLE `ingredient`
 
 --
 -- Indexes for table `item`
+-- Syed Asad
 --
 ALTER TABLE `item`
   ADD PRIMARY KEY (`item_id`),
@@ -657,6 +679,7 @@ ALTER TABLE `takeout`
 
 --
 -- Indexes for table `user`
+-- Dien Chau
 --
 ALTER TABLE `user`
   ADD PRIMARY KEY (`user_id`),
