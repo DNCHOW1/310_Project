@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 04, 2023 at 06:28 AM
+-- Generation Time: May 06, 2023 at 02:11 AM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.2.0
 
@@ -56,7 +56,9 @@ INSERT INTO `checkout` (`order_id`, `customer_id`, `employee_id`, `payment_id`, 
 (20, 13, 24, 3, 1, '2023-04-17 14:13:25', '2023-04-17 14:13:53', 'delivery', 75.9),
 (26, 23, NULL, 8, 0, '2023-05-02 19:43:49', '2023-05-02 19:43:49', 'pickup', 30.67),
 (27, 13, NULL, 3, 0, '2023-05-03 02:22:59', '2023-05-03 02:22:59', 'pickup', 23.18),
-(36, 13, NULL, 9, 0, '2023-05-03 21:17:42', '2023-05-03 21:17:42', 'pickup', 60.49);
+(36, 13, NULL, 9, 0, '2023-05-03 21:17:42', '2023-05-03 21:17:42', 'pickup', 60.49),
+(41, 54, NULL, 25, 0, '2023-05-05 19:05:45', '2023-05-05 19:05:45', 'pickup', 187.63),
+(42, 54, NULL, 25, 0, '2023-05-05 19:07:21', '2023-05-05 19:07:21', 'delivery', 52.8);
 
 -- --------------------------------------------------------
 
@@ -80,7 +82,8 @@ INSERT INTO `customer` (`customer_id`, `phone`, `street`, `city`, `zip_code`) VA
 (13, '742-528-2713', 'Random Street', 'Random City', 77840),
 (22, '2666738282', 'shf', 'city name', 72587),
 (23, '725-257-2792', 'shf', 'sjf', 72587),
-(34, '795828725728', 'Bonnie Holland', 'Katy', 77494);
+(34, '795828725728', 'Bonnie Holland', 'Katy', 77494),
+(54, '82274823842', 'street1', 'city1', 72800);
 
 -- --------------------------------------------------------
 
@@ -126,7 +129,8 @@ INSERT INTO `delivery` (`order_id`, `address`, `city`, `zip_code`) VALUES
 (9, 'shf', 'sjf', 72587),
 (12, 'Test Address', 'Test City', 77840),
 (14, 'Random Street 3', 'Random City 3', 77840),
-(20, 'Random Street Test', 'Random City', 77840);
+(20, 'Random Street Test', 'Random City', 77840),
+(42, 'street1', 'city1', 72800);
 
 -- --------------------------------------------------------
 
@@ -161,6 +165,14 @@ CREATE TABLE `employeecomment` (
   `comment` text NOT NULL,
   `datetime` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `employeecomment`
+--
+
+INSERT INTO `employeecomment` (`customer_id`, `item_id`, `employee_id`, `comment`, `datetime`) VALUES
+(13, 1, 25, 'eh....', '2023-05-06 00:09:49'),
+(54, 4, 25, 'Actually theyre bad', '2023-05-06 00:09:36');
 
 -- --------------------------------------------------------
 
@@ -324,7 +336,16 @@ INSERT INTO `orderitem` (`order_id`, `item_id`, `amount`) VALUES
 (36, 4, 1),
 (36, 6, 1),
 (36, 7, 1),
-(36, 8, 1);
+(36, 8, 1),
+(41, 1, 2),
+(41, 4, 5),
+(41, 7, 3),
+(41, 8, 4),
+(42, 2, 1),
+(42, 4, 1),
+(42, 6, 1),
+(42, 7, 1),
+(42, 8, 1);
 
 -- --------------------------------------------------------
 
@@ -375,7 +396,8 @@ INSERT INTO `payment` (`customer_id`, `payment_id`, `name`, `cc_number`, `expira
 (13, 3, 'Dien Chau', 5297924298, '2023-12-01', 283),
 (13, 9, 'Pablo Frausto', 82945728582, '2023-10-01', 923),
 (23, 4, 'Dien Chau', 33333333333, '2023-02-01', 98),
-(23, 8, 'syed asad', 1233445556454324, '2023-06-01', 123);
+(23, 8, 'syed asad', 1233445556454324, '2023-06-01', 123),
+(54, 25, 'customer1', 7777777777, '2025-03-01', 925);
 
 -- --------------------------------------------------------
 
@@ -399,7 +421,8 @@ INSERT INTO `review` (`customer_id`, `item_id`, `review`, `rating`, `datetime`) 
 (13, 1, 'pepperoni is decent', 3, '2023-05-03 15:05:31'),
 (13, 2, 'I like how much cheese there is', 5, '2023-05-03 15:05:39'),
 (13, 6, 'I LOVE PINEAPPLE!', 4, '2023-05-03 21:23:37'),
-(13, 7, 'Bacon tastes bad but pizza is good...', 2, '2023-05-03 21:23:52');
+(13, 7, 'Bacon tastes bad but pizza is good...', 2, '2023-05-03 21:23:52'),
+(54, 4, 'I like sausages!', 4, '2023-05-05 19:07:34');
 
 -- --------------------------------------------------------
 
@@ -440,7 +463,8 @@ INSERT INTO `takeout` (`order_id`, `pickupTime`) VALUES
 (15, '2023-04-11 18:31:00'),
 (26, '2023-05-03 17:10:00'),
 (27, '2023-05-03 02:25:00'),
-(36, '2023-05-04 21:20:00');
+(36, '2023-05-04 21:20:00'),
+(41, '2023-05-06 23:00:00');
 
 -- --------------------------------------------------------
 
@@ -469,7 +493,8 @@ INSERT INTO `user` (`user_id`, `username`, `password`, `first_name`, `last_name`
 (24, 'employee1', 'pass', 'firstname', 'lastname2', 'firstlast@yahoo.com', 1),
 (25, 'admin1', 'pass', 'fname', 'lname', 'admin@hotmail.com', 1),
 (33, 'employee2', 'pass', 'chris', 'lanky', 'chrislanks@tamu.edu', 0),
-(34, 'pp', '123', 'pryce', 'poole', 'pp@yahoo.com', 0);
+(34, 'pp', '123', 'pryce', 'poole', 'pp@yahoo.com', 0),
+(54, 'customer1', 'pass', 'customer1', 'last1', 'customer1@yahoo.com', 0);
 
 -- --------------------------------------------------------
 
@@ -647,13 +672,13 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `checkout`
 --
 ALTER TABLE `checkout`
-  MODIFY `order_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
+  MODIFY `order_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
 
 --
 -- AUTO_INCREMENT for table `customer`
 --
 ALTER TABLE `customer`
-  MODIFY `customer_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
+  MODIFY `customer_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=55;
 
 --
 -- AUTO_INCREMENT for table `ingredient`
@@ -671,13 +696,13 @@ ALTER TABLE `item`
 -- AUTO_INCREMENT for table `payment`
 --
 ALTER TABLE `payment`
-  MODIFY `payment_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `payment_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `user_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=54;
+  MODIFY `user_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=55;
 
 --
 -- Constraints for dumped tables
