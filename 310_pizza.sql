@@ -161,6 +161,7 @@ INSERT INTO `employee` (`employee_id`, `admin`) VALUES
 
 --
 -- Table structure for table `employeecomment`
+-- Ekdev Rajkitkul
 --
 
 CREATE TABLE `employeecomment` (
@@ -416,6 +417,7 @@ INSERT INTO `payment` (`customer_id`, `payment_id`, `name`, `cc_number`, `expira
 
 --
 -- Table structure for table `review`
+-- Ekdev Rajkitkul
 --
 
 CREATE TABLE `review` (
@@ -428,6 +430,7 @@ CREATE TABLE `review` (
 
 --
 -- Dumping data for table `review`
+-- Ekdev Rajkitkul
 --
 
 INSERT INTO `review` (`customer_id`, `item_id`, `review`, `rating`, `datetime`) VALUES
@@ -442,6 +445,7 @@ INSERT INTO `review` (`customer_id`, `item_id`, `review`, `rating`, `datetime`) 
 --
 -- Stand-in structure for view `review_and_comment_view`
 -- (See below for the actual view)
+-- Ekdev Rajkitkul
 --
 CREATE TABLE `review_and_comment_view` (
 `item_id` bigint(20) unsigned
@@ -516,6 +520,7 @@ INSERT INTO `user` (`user_id`, `username`, `password`, `first_name`, `last_name`
 --
 -- Stand-in structure for view `user_item_view`
 -- (See below for the actual view)
+-- Ekdev Rajkitkul
 --
 CREATE TABLE `user_item_view` (
 `customer_id` bigint(20) unsigned
@@ -567,6 +572,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 
 --
 -- Structure for view `review_and_comment_view`
+-- Ekdev Rajkitkul
 --
 DROP TABLE IF EXISTS `review_and_comment_view`;
 
@@ -619,6 +625,7 @@ ALTER TABLE `employee`
 
 --
 -- Indexes for table `employeecomment`
+-- Ekdev Rajkitkul
 --
 ALTER TABLE `employeecomment`
   ADD PRIMARY KEY (`customer_id`,`item_id`),
@@ -665,6 +672,7 @@ ALTER TABLE `payment`
 
 --
 -- Indexes for table `review`
+-- Ekdev Rajkitkul
 --
 ALTER TABLE `review`
   ADD PRIMARY KEY (`customer_id`,`item_id`),
@@ -758,6 +766,7 @@ ALTER TABLE `employee`
 
 --
 -- Constraints for table `employeecomment`
+-- Ekdev Rajkitkul
 --
 ALTER TABLE `employeecomment`
   ADD CONSTRAINT `employeecomment_ibfk_2` FOREIGN KEY (`employee_id`) REFERENCES `employee` (`employee_id`) ON DELETE CASCADE,
@@ -785,6 +794,7 @@ ALTER TABLE `payment`
 
 --
 -- Constraints for table `review`
+-- Ekdev Rajkitkul
 --
 ALTER TABLE `review`
   ADD CONSTRAINT `review_ibfk_1` FOREIGN KEY (`customer_id`) REFERENCES `customer` (`customer_id`) ON DELETE CASCADE,
